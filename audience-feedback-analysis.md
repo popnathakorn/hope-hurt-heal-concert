@@ -282,6 +282,45 @@ Post-Concert Meeting No. 5 | 5 June 2026
 | Unity & teamwork | "ความเป็นน้ำหนึ่งใจเดียวกันของทีม" |
 | Program coherence with theme | "เนื้อเพลงถูกร้อยเรียงออกมาให้อยู่ในหมวดหมู่เดียวกัน" |
 
+*Note: theme counts below are based on qualitative coding of open-text responses; one response may cover multiple themes.*
+
+### What the Audience Loved Most by Attendance History
+
+| Theme | First time (22 resp) | 2nd time (18 resp) | 3+ times (8 resp) |
+|---|---|---|---|
+| Diverse / accessible repertoire | 2 | **6** | 3 |
+| Vocal quality & beauty | 4 | 2 | 2 |
+| Emotional delivery & dedication | 4 | 3 | 1 |
+| Dance / choreography | **4** | 0 | 0 |
+| Program coherence with theme | 3 | 2 | 2 |
+| Arrangement boldness & quality | 0 | 2 | 0 |
+| Performers' joy & energy | 1 | 2 | 1 |
+| Unity & teamwork | 2 | 0 | 1 |
+
+**Key insights:**
+- First-timers spread appreciation evenly across vocal quality, emotional delivery, dance, and program coherence — everything feels new and impressive
+- Dance is exclusively a first-timer highlight — no 2nd or 3+ timer mentioned it as what they loved most
+- 2nd-timers are most excited by diverse/accessible repertoire (6 of 18 responses) and appreciate boldness in song selection ("การกล้าที่จะเลือกเพลงที่แตกต่าง")
+- 3+ timers emphasise accessible repertoire with a note of progress — several explicitly mention improvement from previous years ("แนวเพลงที่หลากหลายกว่าเดิมมากขึ้น")
+
+### What the Audience Loved Most by Choir Background
+
+| Theme | Choir Singers (25 resp) | Non-Singers (23 resp) |
+|---|---|---|
+| Dance / choreography | **4** | 1 |
+| Vocal quality & beauty | 4 | 2 |
+| Program coherence with theme | 4 | 2 |
+| Dedication & emotional delivery | 3 | **5** |
+| Diverse / accessible repertoire | 3 | 5 |
+| Arrangement boldness & quality | 2 | 0 |
+| Unity & teamwork | 1 | 2 |
+
+**Key insights:**
+- Choir singers are the primary champions of dance — they appreciate the craft required to sing and move simultaneously
+- Singers also notice arrangement quality as a highlight ("Arrange เพลงดีมากครับ บางเพลงไม่นึกว่าตะทำแบบ gospel ได้ออกมาดีขนาดนี้") — non-singers never mentioned this
+- Non-singers are driven more by emotional impact — dedication, performers looking "invested", feeling immersed ("ดูแล้วรู้สึกจมในเพลง")
+- Both groups value vocal quality and diverse repertoire equally
+
 ### Messages to Members (Q18)
 
 Tone across all responses was overwhelmingly warm and encouraging:
@@ -290,6 +329,25 @@ Tone across all responses was overwhelmingly warm and encouraging:
 - "ขอให้วงเติบโต" — audience wants to see the choir grow
 - Multiple first-time attendees expressed intent to return
 - At least 2 responses in English and Chinese — signs of diverse reach
+
+### Messages to Members by Attendance History
+
+| Group | Tone | Notable patterns |
+|---|---|---|
+| First time (19 resp) | Enthusiastic, surprised | Express intent to return; reference specific songs; some include emoji; one English response ("Really good singers") |
+| 2nd time (17 resp) | Warm, invested | Mix of encouragement and embedded technical suggestions; one Chinese response (你们真厉害！); tone feels like a returning supporter |
+| 3+ times (8 resp) | Personal, familial | Most affectionate tone; acknowledge the discipline and sacrifice required; use insider language; express international ambitions for the choir |
+
+**Key insight:** Messages grow progressively warmer and more personal with each return visit. Loyal fans treat the choir like family — their messages read less like audience feedback and more like notes from friends.
+
+### Messages to Members by Choir Background
+
+| Group | Tone | Notable patterns |
+|---|---|---|
+| Choir Singers (22 resp) | Collegial, specific | Reference particular songs or technical moments; some express desire to join ("อยากมาร่วมงานด้วย"); encouragement with insider understanding |
+| Non-Singers (22 resp) | Moved, inspired | Focus on emotional impact ("เติมไฟในใจ"); express wanting to come back; acknowledge the dedication without the technical vocabulary |
+
+**Key insight:** Choir singers write as peers who understand what it takes; non-singers write as audience members who were moved by something they can't fully articulate technically — both equally warm, but from different vantage points.
 
 ---
 
@@ -362,6 +420,103 @@ Tone across all responses was overwhelmingly warm and encouraging:
 
 - Audience wants more narration or context between songs
   > "การเล่าเรื่องเพิ่มอีกสักหน่อยครับ"
+
+*Note: theme counts below are based on qualitative coding of open-text responses.*
+
+### Areas for Improvement by Attendance History
+
+| Theme | First time (7 resp) | 2nd time (13 resp) | 3+ times (5 resp) |
+|---|---|---|---|
+| Venue size & ticket availability | 2 | **5** | 0 |
+| Seating arrangement | 1 | 2 | 0 |
+| Vocal quality / technique | 0 | 3 | **3** |
+| Show duration (too short) | 1 | 1 | 0 |
+| Song flow / program direction | 1 | 2 | 0 |
+| Venue logistics (AC, food, signage) | 2 | 1 | 0 |
+| Dance pacing | 0 | 1 | 0 |
+| Guest movement between songs | 0 | 0 | 1 |
+| Narration / storytelling | 1 | 0 | 0 |
+
+**Key insights:**
+- Venue/seating dominates 2nd-timer feedback (5 of 13 responses) — they know how fast tickets sell out and feel the hall getting smaller as the audience grows
+- 3+ timers focus almost entirely on vocal technique — soprano confidence, bass support, harmonization — the most demanding critics with the most specific feedback
+- First-timers raise the softest issues: narration, ensemble readiness, AC — things that affected their first experience but are not showstoppers
+- Dance pacing critique ("Should slow down the dancing") appears only in 2nd-timer responses
+
+### Areas for Improvement by Choir Background
+
+| Theme | Choir Singers (11 resp) | Non-Singers (14 resp) |
+|---|---|---|
+| Vocal technique (harmonization, soprano, bass) | **4** | 2 |
+| Venue size & ticket availability | 2 | **4** |
+| Seating arrangement | 0 | 2 |
+| Show duration | 1 | 1 |
+| Song flow / program direction | 1 | 2 |
+| Venue logistics (AC, food, signage) | 2 | 1 |
+| Ensemble readiness | 1 | 0 |
+| Guest movement between songs | 1 | 0 |
+
+**Key insights:**
+- Vocal technique critique is concentrated among choir singers — they hear specific issues (harmonization timing, soprano confidence, bass thinness) that non-singers notice only generally
+- Non-singers are more focused on venue logistics and seating — the physical experience of attending
+- One non-singer gave the most detailed note-by-note performance feedback of anyone in the survey, suggesting some non-singers have musical training even if they don't sing in a choir
+
+---
+
+### Future Wishes for Kangwan Singers (Q17)
+
+38 of 68 respondents (56%) answered this question.
+
+Top themes overall:
+1. **Bigger ensemble / more members** — most common wish across all groups
+2. **Bigger venue or full production** — linked to the ensemble growth wish
+3. **International competition** — especially among loyal fans
+4. **Musical theatre repertoire** — strong among both singers and 2nd/3+ timers
+5. **Audience interaction** — want more two-way engagement during the show
+6. **Diverse/themed programming** (Disney night, T-Pop set, anime) — first-timer and singer driven
+
+### Future Wishes by Attendance History
+
+| Theme | First time (16 resp) | 2nd time (14 resp) | 3+ times (8 resp) |
+|---|---|---|---|
+| Bigger ensemble / more members | **4** | 1 | 2 |
+| Bigger venue / full production | 2 | 1 | 1 |
+| Musical theatre repertoire | 1 | 2 | 1 |
+| Specific genre additions | 1 | **3** | 0 |
+| Theme / concept concerts | 2 | 1 | 0 |
+| International competition | 0 | 1 | **3** |
+| Audience interaction | 0 | 0 | **2** |
+| More instruments / live band | 1 | 0 | 0 |
+| Age / gender diversity in ensemble | 1 | 0 | 0 |
+| More shows / keep going | 1 | 2 | 1 |
+
+**Key insights:**
+- First-timers want scale — more members, bigger venue, full production. Their wish is essentially "make it bigger"
+- 2nd-timers bring the most specific repertoire ideas — Thai folk in choral style, anime songs ("Attack on Titan, Demon Slayer — guaranteed an audience"), fun songs
+- Loyal fans (3+) are the most ambitious — 3 of 8 mention international competition; 2 specifically want audience interaction built into future shows; one envisions performing at Lumphini Park to attract Thai and international audiences
+- International competition aspiration grows sharply with attendance — 0% of first-timers vs 33% of loyal fans
+
+### Future Wishes by Choir Background
+
+| Theme | Choir Singers (20 resp) | Non-Singers (18 resp) |
+|---|---|---|
+| Bigger ensemble / more members | **5** | 3 |
+| Musical theatre repertoire | **3** | 2 |
+| Quality / technical improvement | 2 | 1 |
+| Diverse / themed programming | 3 | 1 |
+| International competition | 2 | 2 |
+| Audience interaction | 1 | 1 |
+| Accessible / popular songs | 1 | 2 |
+| Bigger venue / full production | 1 | 2 |
+| More instruments / live band | 0 | 1 |
+| Age / gender diversity | 1 | 0 |
+| More shows / keep going | 1 | 2 |
+
+**Key insights:**
+- Choir singers overwhelmingly want a bigger ensemble (5 of 20) — they understand directly how voice-part balance and repertoire range depend on headcount
+- Singers are more drawn to musical theatre and themed programming — repertoire preferences mirror what they want to perform, not just hear
+- Non-singers prioritise scale and accessibility — they want to bring more people, attend bigger venues, and have more opportunities to see the choir
+- Both groups share equal enthusiasm for international competition (2 each), suggesting it's a broadly-held aspiration across the audience
 
 ---
 
