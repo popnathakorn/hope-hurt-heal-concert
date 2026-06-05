@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>Hope Hurt Heal — Audience Feedback Analysis</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg-dark:#1a0008;
+  --bg-mid:#4a0018;
+  --gold:#c8921e;
+  --gold-light:#e8c060;
+  --text:#f5e8c8;
+  --panel:#2d0010;
+  --row-alt:#221008;
+  --muted:#a07040;
+}
+body{
+  background:var(--bg-dark);
+  color:var(--text);
+  font-family:-apple-system,'Segoe UI',sans-serif;
+  height:100vh;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+}
+#deck{flex:1;position:relative;overflow:hidden}
+.slide{
+  display:none;
+  position:absolute;
+  inset:0;
+  padding:36px 56px 28px;
+  background:radial-gradient(ellipse at center,var(--bg-mid) 0%,var(--bg-dark) 72%);
+  overflow-y:auto;
+  flex-direction:column;
+}
+.slide.active{display:flex}
+.section-label{
+  font-size:11px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--gold);margin-bottom:8px
+}
+.slide-title{
+  font-family:Georgia,serif;font-size:24px;
+  color:var(--gold-light);margin-bottom:18px;line-height:1.25
+}
+/* Tables */
+table{
+  width:100%;border-collapse:collapse;font-size:14px;
+  background:var(--panel);border-radius:6px;overflow:hidden
+}
+th{
+  text-align:left;padding:9px 13px;color:var(--gold);
+  font-size:11px;letter-spacing:1px;text-transform:uppercase;
+  border-bottom:1px solid #5a1020;font-weight:600
+}
+th.right,td.right{text-align:right}
+td{padding:8px 13px;border-bottom:1px solid #3a0015;color:var(--text)}
+tr:last-child td{border-bottom:none}
+tr:nth-child(even) td{background:var(--row-alt)}
+td.highlight{color:var(--gold-light);font-weight:700}
+/* Key insight callout */
+.insight{
+  margin-top:14px;padding:9px 13px;
+  border-left:3px solid var(--gold);
+  font-style:italic;font-size:13px;color:var(--muted);
+  background:rgba(45,0,16,.45);border-radius:0 4px 4px 0;
+  flex-shrink:0
+}
+/* Section title cards */
+.section-card{
+  flex:1;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center
+}
+.section-card .sc-num{
+  font-family:Georgia,serif;font-size:80px;
+  color:var(--gold);line-height:1;margin-bottom:14px
+}
+.section-card .sc-title{
+  font-family:Georgia,serif;font-size:30px;
+  color:var(--gold-light);margin-bottom:8px
+}
+.section-card .sc-sub{font-size:14px;color:var(--muted);letter-spacing:1px}
+/* Nav bar */
+#nav{
+  display:flex;align-items:center;justify-content:center;gap:20px;
+  padding:11px 24px;background:rgba(26,0,8,.97);
+  border-top:1px solid #3a0015;flex-shrink:0
+}
+#nav button{
+  background:var(--panel);color:var(--gold);border:1px solid #5a1020;
+  padding:8px 22px;font-size:14px;font-weight:600;border-radius:4px;
+  cursor:pointer;letter-spacing:1px
+}
+#nav button:hover{background:#4a0018}
+#counter{font-size:13px;color:var(--muted);min-width:60px;text-align:center}
+/* Title slide */
+.title-slide{
+  flex:1;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center
+}
+.title-slide img{width:160px;margin-bottom:22px;border-radius:4px}
+.title-slide .t-event{
+  font-size:11px;letter-spacing:4px;text-transform:uppercase;
+  color:var(--gold);margin-bottom:12px
+}
+.title-slide .t-title{
+  font-family:Georgia,serif;font-size:42px;
+  color:var(--gold-light);margin-bottom:8px;line-height:1.15
+}
+.title-slide .t-sub{font-size:16px;color:var(--text);margin-bottom:6px}
+.title-slide .divider{
+  width:40px;height:2px;background:var(--gold);margin:16px auto
+}
+.title-slide .t-date{
+  font-size:12px;color:var(--muted);letter-spacing:3px;text-transform:uppercase
+}
+/* Agenda cards */
+.agenda-grid{display:flex;gap:18px;flex:1;align-items:center}
+.agenda-card{
+  flex:1;background:var(--panel);border:1px solid #5a1020;border-radius:8px;
+  padding:22px;cursor:pointer;transition:border-color .12s
+}
+.agenda-card:hover{border-color:var(--gold)}
+.agenda-card .ac-num{
+  font-family:Georgia,serif;font-size:40px;color:var(--gold);margin-bottom:8px
+}
+.agenda-card .ac-title{font-size:14px;color:var(--gold-light);font-weight:600;margin-bottom:4px}
+.agenda-card .ac-desc{font-size:12px;color:var(--muted);line-height:1.4}
+/* Qualitative theme blocks */
+.theme-list{display:flex;flex-direction:column;gap:8px;flex:1}
+.theme-block{
+  background:var(--panel);border-radius:6px;
+  padding:10px 14px;display:flex;flex-direction:column;gap:4px
+}
+.theme-heading{font-weight:600;color:var(--gold-light);font-size:14px}
+.theme-quote{
+  font-style:italic;font-size:12px;color:var(--muted);
+  padding-left:10px;border-left:2px solid var(--gold)
+}
+/* Qualitative summary (Q18) */
+.quote-list{display:flex;flex-direction:column;gap:10px;flex:1}
+.quote-item{
+  background:var(--panel);border-radius:6px;
+  padding:10px 14px;border-left:3px solid var(--gold);
+  font-style:italic;font-size:13px;color:var(--text)
+}
+.quote-meta{font-style:normal;font-size:11px;color:var(--muted);margin-top:4px}
+/* Qualitative cross-tab (tone table) */
+.tone-table{width:100%;border-collapse:collapse;font-size:13px}
+.tone-table th{
+  text-align:left;padding:9px 13px;color:var(--gold);
+  font-size:11px;letter-spacing:1px;text-transform:uppercase;
+  border-bottom:1px solid #5a1020;font-weight:600;background:var(--panel)
+}
+.tone-table td{
+  padding:10px 13px;border-bottom:1px solid #3a0015;
+  vertical-align:top;color:var(--text)
+}
+.tone-table td:first-child{
+  font-weight:600;color:var(--gold-light);white-space:nowrap;
+  width:22%;background:var(--panel)
+}
+.tone-table td.tone{font-style:italic;color:var(--muted);width:20%}
+.tone-table td.notes{font-size:12px;color:var(--text)}
+/* Two-panel profile */
+.profile-grid{display:flex;gap:20px;flex:1}
+.profile-panel{flex:1;background:var(--panel);border-radius:8px;padding:18px}
+.profile-panel h3{
+  font-family:Georgia,serif;font-size:17px;
+  color:var(--gold-light);margin-bottom:14px
+}
+</style>
+</head>
+<body>
+<div id="deck">
+  <div class="slide" id="s1"></div>
+  <div class="slide" id="s2"></div>
+  <div class="slide" id="s3"></div>
+  <div class="slide" id="s4"></div>
+  <div class="slide" id="s5"></div>
+  <div class="slide" id="s6"></div>
+  <div class="slide" id="s7"></div>
+  <div class="slide" id="s8"></div>
+  <div class="slide" id="s9"></div>
+  <div class="slide" id="s10"></div>
+  <div class="slide" id="s11"></div>
+  <div class="slide" id="s12"></div>
+  <div class="slide" id="s13"></div>
+  <div class="slide" id="s14"></div>
+  <div class="slide" id="s15"></div>
+  <div class="slide" id="s16"></div>
+  <div class="slide" id="s17"></div>
+  <div class="slide" id="s18"></div>
+  <div class="slide" id="s19"></div>
+  <div class="slide" id="s20"></div>
+  <div class="slide" id="s21"></div>
+  <div class="slide" id="s22"></div>
+  <div class="slide" id="s23"></div>
+  <div class="slide" id="s24"></div>
+  <div class="slide" id="s25"></div>
+  <div class="slide" id="s26"></div>
+  <div class="slide" id="s27"></div>
+  <div class="slide" id="s28"></div>
+  <div class="slide" id="s29"></div>
+  <div class="slide" id="s30"></div>
+  <div class="slide" id="s31"></div>
+  <div class="slide" id="s32"></div>
+  <div class="slide" id="s33"></div>
+</div>
+<div id="nav">
+  <button id="btn-prev">◀ PREV</button>
+  <span id="counter">1 / 33</span>
+  <button id="btn-next">NEXT ▶</button>
+</div>
+<script>
+var cur=0;
+var slides=document.querySelectorAll('.slide');
+var total=slides.length;
+function goTo(n){
+  slides[cur].classList.remove('active');
+  cur=Math.max(0,Math.min(n,total-1));
+  slides[cur].classList.add('active');
+  document.getElementById('counter').textContent=(cur+1)+' / '+total;
+}
+document.getElementById('btn-prev').onclick=function(){goTo(cur-1)};
+document.getElementById('btn-next').onclick=function(){goTo(cur+1)};
+document.addEventListener('keydown',function(e){
+  if(e.key==='ArrowRight'||e.key===' ')goTo(cur+1);
+  if(e.key==='ArrowLeft')goTo(cur-1);
+});
+goTo(0);
+</script>
+</body>
+</html>
