@@ -1,0 +1,1390 @@
+# Hope Hurt Heal Concert Presentation Implementation Plan
+
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+
+**Goal:** Build a 33-slide self-contained HTML slide deck at `public/index.html` presenting post-concert audience feedback for the Kangwan Singers' "Hope Hurt Heal" concert (68 responses, 3 agenda sections).
+
+**Architecture:** Single `public/index.html` with all CSS and JS inline. 33 `<div class="slide">` elements; CSS shows only the one with class `active`. Keyboard arrows + nav buttons control which slide is active. No build step, no CDN, no external dependencies — opens directly from `file://`.
+
+**Tech Stack:** Vanilla HTML5, CSS custom properties, vanilla JavaScript.
+
+---
+
+## File Structure
+
+```
+public/
+  index.html    ← create: entire slide deck (HTML + CSS + JS, self-contained)
+
+logojpg.jpg     ← exists: referenced as ../logojpg.jpg from public/index.html
+```
+
+---
+
+## Task 1: Skeleton — CSS, navigation JS, 33 empty slide divs
+
+**Files:**
+- Create: `public/index.html`
+
+- [ ] **Step 1: Create the skeleton file**
+
+Write the following to `public/index.html`:
+
+```html
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>Hope Hurt Heal — Audience Feedback Analysis</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg-dark:#1a0008;
+  --bg-mid:#4a0018;
+  --gold:#c8921e;
+  --gold-light:#e8c060;
+  --text:#f5e8c8;
+  --panel:#2d0010;
+  --row-alt:#221008;
+  --muted:#a07040;
+}
+body{
+  background:var(--bg-dark);
+  color:var(--text);
+  font-family:-apple-system,'Segoe UI',sans-serif;
+  height:100vh;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+}
+#deck{flex:1;position:relative;overflow:hidden}
+.slide{
+  display:none;
+  position:absolute;
+  inset:0;
+  padding:36px 56px 28px;
+  background:radial-gradient(ellipse at center,var(--bg-mid) 0%,var(--bg-dark) 72%);
+  overflow-y:auto;
+  flex-direction:column;
+}
+.slide.active{display:flex}
+.section-label{
+  font-size:11px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--gold);margin-bottom:8px
+}
+.slide-title{
+  font-family:Georgia,serif;font-size:24px;
+  color:var(--gold-light);margin-bottom:18px;line-height:1.25
+}
+/* Tables */
+table{
+  width:100%;border-collapse:collapse;font-size:14px;
+  background:var(--panel);border-radius:6px;overflow:hidden
+}
+th{
+  text-align:left;padding:9px 13px;color:var(--gold);
+  font-size:11px;letter-spacing:1px;text-transform:uppercase;
+  border-bottom:1px solid #5a1020;font-weight:600
+}
+th.right,td.right{text-align:right}
+td{padding:8px 13px;border-bottom:1px solid #3a0015;color:var(--text)}
+tr:last-child td{border-bottom:none}
+tr:nth-child(even) td{background:var(--row-alt)}
+td.highlight{color:var(--gold-light);font-weight:700}
+/* Key insight callout */
+.insight{
+  margin-top:14px;padding:9px 13px;
+  border-left:3px solid var(--gold);
+  font-style:italic;font-size:13px;color:var(--muted);
+  background:rgba(45,0,16,.45);border-radius:0 4px 4px 0;
+  flex-shrink:0
+}
+/* Section title cards */
+.section-card{
+  flex:1;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center
+}
+.section-card .sc-num{
+  font-family:Georgia,serif;font-size:80px;
+  color:var(--gold);line-height:1;margin-bottom:14px
+}
+.section-card .sc-title{
+  font-family:Georgia,serif;font-size:30px;
+  color:var(--gold-light);margin-bottom:8px
+}
+.section-card .sc-sub{font-size:14px;color:var(--muted);letter-spacing:1px}
+/* Nav bar */
+#nav{
+  display:flex;align-items:center;justify-content:center;gap:20px;
+  padding:11px 24px;background:rgba(26,0,8,.97);
+  border-top:1px solid #3a0015;flex-shrink:0
+}
+#nav button{
+  background:var(--panel);color:var(--gold);border:1px solid #5a1020;
+  padding:8px 22px;font-size:14px;font-weight:600;border-radius:4px;
+  cursor:pointer;letter-spacing:1px
+}
+#nav button:hover{background:#4a0018}
+#counter{font-size:13px;color:var(--muted);min-width:60px;text-align:center}
+/* Title slide */
+.title-slide{
+  flex:1;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center
+}
+.title-slide img{width:160px;margin-bottom:22px;border-radius:4px}
+.title-slide .t-event{
+  font-size:11px;letter-spacing:4px;text-transform:uppercase;
+  color:var(--gold);margin-bottom:12px
+}
+.title-slide .t-title{
+  font-family:Georgia,serif;font-size:42px;
+  color:var(--gold-light);margin-bottom:8px;line-height:1.15
+}
+.title-slide .t-sub{font-size:16px;color:var(--text);margin-bottom:6px}
+.title-slide .divider{
+  width:40px;height:2px;background:var(--gold);margin:16px auto
+}
+.title-slide .t-date{
+  font-size:12px;color:var(--muted);letter-spacing:3px;text-transform:uppercase
+}
+/* Agenda cards */
+.agenda-grid{display:flex;gap:18px;flex:1;align-items:center}
+.agenda-card{
+  flex:1;background:var(--panel);border:1px solid #5a1020;border-radius:8px;
+  padding:22px;cursor:pointer;transition:border-color .12s
+}
+.agenda-card:hover{border-color:var(--gold)}
+.agenda-card .ac-num{
+  font-family:Georgia,serif;font-size:40px;color:var(--gold);margin-bottom:8px
+}
+.agenda-card .ac-title{font-size:14px;color:var(--gold-light);font-weight:600;margin-bottom:4px}
+.agenda-card .ac-desc{font-size:12px;color:var(--muted);line-height:1.4}
+/* Qualitative theme blocks */
+.theme-list{display:flex;flex-direction:column;gap:8px;flex:1}
+.theme-block{
+  background:var(--panel);border-radius:6px;
+  padding:10px 14px;display:flex;flex-direction:column;gap:4px
+}
+.theme-heading{font-weight:600;color:var(--gold-light);font-size:14px}
+.theme-quote{
+  font-style:italic;font-size:12px;color:var(--muted);
+  padding-left:10px;border-left:2px solid var(--gold)
+}
+/* Qualitative summary (Q18) */
+.quote-list{display:flex;flex-direction:column;gap:10px;flex:1}
+.quote-item{
+  background:var(--panel);border-radius:6px;
+  padding:10px 14px;border-left:3px solid var(--gold);
+  font-style:italic;font-size:13px;color:var(--text)
+}
+.quote-meta{font-style:normal;font-size:11px;color:var(--muted);margin-top:4px}
+/* Qualitative cross-tab (tone table) */
+.tone-table{width:100%;border-collapse:collapse;font-size:13px}
+.tone-table th{
+  text-align:left;padding:9px 13px;color:var(--gold);
+  font-size:11px;letter-spacing:1px;text-transform:uppercase;
+  border-bottom:1px solid #5a1020;font-weight:600;background:var(--panel)
+}
+.tone-table td{
+  padding:10px 13px;border-bottom:1px solid #3a0015;
+  vertical-align:top;color:var(--text)
+}
+.tone-table td:first-child{
+  font-weight:600;color:var(--gold-light);white-space:nowrap;
+  width:22%;background:var(--panel)
+}
+.tone-table td.tone{font-style:italic;color:var(--muted);width:20%}
+.tone-table td.notes{font-size:12px;color:var(--text)}
+/* Two-panel profile */
+.profile-grid{display:flex;gap:20px;flex:1}
+.profile-panel{flex:1;background:var(--panel);border-radius:8px;padding:18px}
+.profile-panel h3{
+  font-family:Georgia,serif;font-size:17px;
+  color:var(--gold-light);margin-bottom:14px
+}
+</style>
+</head>
+<body>
+<div id="deck">
+  <div class="slide" id="s1"></div>
+  <div class="slide" id="s2"></div>
+  <div class="slide" id="s3"></div>
+  <div class="slide" id="s4"></div>
+  <div class="slide" id="s5"></div>
+  <div class="slide" id="s6"></div>
+  <div class="slide" id="s7"></div>
+  <div class="slide" id="s8"></div>
+  <div class="slide" id="s9"></div>
+  <div class="slide" id="s10"></div>
+  <div class="slide" id="s11"></div>
+  <div class="slide" id="s12"></div>
+  <div class="slide" id="s13"></div>
+  <div class="slide" id="s14"></div>
+  <div class="slide" id="s15"></div>
+  <div class="slide" id="s16"></div>
+  <div class="slide" id="s17"></div>
+  <div class="slide" id="s18"></div>
+  <div class="slide" id="s19"></div>
+  <div class="slide" id="s20"></div>
+  <div class="slide" id="s21"></div>
+  <div class="slide" id="s22"></div>
+  <div class="slide" id="s23"></div>
+  <div class="slide" id="s24"></div>
+  <div class="slide" id="s25"></div>
+  <div class="slide" id="s26"></div>
+  <div class="slide" id="s27"></div>
+  <div class="slide" id="s28"></div>
+  <div class="slide" id="s29"></div>
+  <div class="slide" id="s30"></div>
+  <div class="slide" id="s31"></div>
+  <div class="slide" id="s32"></div>
+  <div class="slide" id="s33"></div>
+</div>
+<div id="nav">
+  <button id="btn-prev">◀ PREV</button>
+  <span id="counter">1 / 33</span>
+  <button id="btn-next">NEXT ▶</button>
+</div>
+<script>
+var cur=0;
+var slides=document.querySelectorAll('.slide');
+var total=slides.length;
+function goTo(n){
+  slides[cur].classList.remove('active');
+  cur=Math.max(0,Math.min(n,total-1));
+  slides[cur].classList.add('active');
+  document.getElementById('counter').textContent=(cur+1)+' / '+total;
+}
+document.getElementById('btn-prev').onclick=function(){goTo(cur-1)};
+document.getElementById('btn-next').onclick=function(){goTo(cur+1)};
+document.addEventListener('keydown',function(e){
+  if(e.key==='ArrowRight'||e.key===' ')goTo(cur+1);
+  if(e.key==='ArrowLeft')goTo(cur-1);
+});
+goTo(0);
+</script>
+</body>
+</html>
+```
+
+- [ ] **Step 2: Verify skeleton in browser**
+
+Open `public/index.html` in a browser. Expected:
+- Black/dark-red page with nav bar at bottom showing "◀ PREV  1 / 33  NEXT ▶"
+- Arrow keys and buttons advance/decrement the counter (slides are empty, that's expected)
+- No console errors
+
+- [ ] **Step 3: Commit**
+
+```
+git add public/index.html
+git commit -m "add slide deck skeleton: CSS system, nav JS, 33 empty slide divs"
+```
+
+---
+
+## Task 2: Slides 1–2 — Title and Agenda
+
+**Files:**
+- Modify: `public/index.html` — fill `id="s1"` and `id="s2"`
+
+- [ ] **Step 1: Add title slide content**
+
+In `public/index.html`, replace:
+```html
+  <div class="slide" id="s1"></div>
+```
+with:
+```html
+  <div class="slide" id="s1">
+    <div class="title-slide">
+      <img src="../logojpg.jpg" alt="Kangwan Singers">
+      <div class="t-event">Post-Concert Meeting No. 5 · 5 June 2026</div>
+      <div class="t-title">Hope · Hurt · Heal</div>
+      <div class="t-sub">Audience Feedback Analysis</div>
+      <div class="divider"></div>
+      <div class="t-date">Kangwan Singers · 68 responses</div>
+    </div>
+  </div>
+```
+
+- [ ] **Step 2: Add agenda slide content**
+
+Replace:
+```html
+  <div class="slide" id="s2"></div>
+```
+with:
+```html
+  <div class="slide" id="s2">
+    <div class="section-label">Agenda</div>
+    <div class="slide-title">Post-Concert Meeting No. 5</div>
+    <div class="agenda-grid">
+      <div class="agenda-card" onclick="goTo(2)">
+        <div class="ac-num">§ 1.1</div>
+        <div class="ac-title">Audience Feedback &amp; Evaluation</div>
+        <div class="ac-desc">Ratings · Songs · Expectations · Genre Preferences</div>
+      </div>
+      <div class="agenda-card" onclick="goTo(18)">
+        <div class="ac-num">§ 1.2</div>
+        <div class="ac-title">Reflections on Performance</div>
+        <div class="ac-desc">What the audience loved · Messages to members</div>
+      </div>
+      <div class="agenda-card" onclick="goTo(25)">
+        <div class="ac-num">§ 1.3</div>
+        <div class="ac-title">Lessons Learned</div>
+        <div class="ac-desc">Areas for improvement · Future wishes · Audience profile</div>
+      </div>
+    </div>
+  </div>
+```
+
+- [ ] **Step 3: Verify in browser**
+
+Open `public/index.html`. Slide 1 should show the logo, concert title, subtitle, divider, date. Slide 2 should show three agenda cards. Clicking a card should jump to that section's slide (slides 3, 19, 26 — currently empty but counter should update).
+
+- [ ] **Step 4: Commit**
+
+```
+git add public/index.html
+git commit -m "add title and agenda slides"
+```
+
+---
+
+## Task 3: Slides 3–6 — §1.1 Section Card + Ratings
+
+**Files:**
+- Modify: `public/index.html` — fill `id="s3"` through `id="s6"`
+
+- [ ] **Step 1: Add §1.1 section card (slide 3)**
+
+Replace `<div class="slide" id="s3"></div>` with:
+```html
+  <div class="slide" id="s3">
+    <div class="section-card">
+      <div class="sc-num">§ 1.1</div>
+      <div class="sc-title">Audience Feedback &amp; Evaluation</div>
+      <div class="sc-sub">Ratings · Songs · Expectations · Genre Preferences</div>
+    </div>
+  </div>
+```
+
+- [ ] **Step 2: Add overall ratings slide (slide 4)**
+
+Replace `<div class="slide" id="s4"></div>` with:
+```html
+  <div class="slide" id="s4">
+    <div class="section-label">§ 1.1 — Audience Ratings</div>
+    <div class="slide-title">Ratings (out of 5) — 68 responses</div>
+    <table>
+      <thead><tr><th>Dimension</th><th class="right">Average</th></tr></thead>
+      <tbody>
+        <tr><td>Value for Money</td><td class="right highlight">4.85</td></tr>
+        <tr><td>Overall Impression</td><td class="right">4.75</td></tr>
+        <tr><td>Vocal Quality</td><td class="right">4.66</td></tr>
+        <tr><td>Emotional Delivery</td><td class="right">4.63</td></tr>
+        <tr><td>Song Order &amp; MC Flow</td><td class="right">4.60</td></tr>
+        <tr><td>Venue</td><td class="right">4.50</td></tr>
+      </tbody>
+    </table>
+    <div class="insight">Venue is the lowest-rated dimension and the most consistently raised concern in open-text responses.</div>
+  </div>
+```
+
+- [ ] **Step 3: Add ratings by attendance slide (slide 5)**
+
+Replace `<div class="slide" id="s5"></div>` with:
+```html
+  <div class="slide" id="s5">
+    <div class="section-label">§ 1.1 — Audience Ratings</div>
+    <div class="slide-title">Ratings by Attendance History</div>
+    <table>
+      <thead><tr>
+        <th>Dimension</th>
+        <th class="right">First time (n=37)</th>
+        <th class="right">2nd time (n=22)</th>
+        <th class="right">3+ times (n=9)</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>Overall Impression</td><td class="right highlight">4.86</td><td class="right">4.68</td><td class="right">4.44</td></tr>
+        <tr><td>Vocal Quality</td><td class="right highlight">4.84</td><td class="right">4.45</td><td class="right">4.44</td></tr>
+        <tr><td>Emotional Delivery</td><td class="right highlight">4.84</td><td class="right">4.41</td><td class="right">4.33</td></tr>
+        <tr><td>Song Order &amp; MC Flow</td><td class="right">4.65</td><td class="right">4.50</td><td class="right highlight">4.67</td></tr>
+        <tr><td>Venue</td><td class="right highlight">4.57</td><td class="right">4.41</td><td class="right">4.44</td></tr>
+        <tr><td>Value for Money</td><td class="right">4.84</td><td class="right">4.86</td><td class="right highlight">4.89</td></tr>
+      </tbody>
+    </table>
+    <div class="insight">First-timers rate almost everything highest. Loyal fans (3+) are the toughest critics on most dimensions but rate Value for Money highest — committed but demanding. Emotional delivery drops the most across repeat visits.</div>
+  </div>
+```
+
+- [ ] **Step 4: Add ratings by choir background slide (slide 6)**
+
+Replace `<div class="slide" id="s6"></div>` with:
+```html
+  <div class="slide" id="s6">
+    <div class="section-label">§ 1.1 — Audience Ratings</div>
+    <div class="slide-title">Ratings by Choir Background</div>
+    <table>
+      <thead><tr>
+        <th>Dimension</th>
+        <th class="right">Choir Singers (n=33)</th>
+        <th class="right">Non-Singers (n=35)</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>Overall Impression</td><td class="right">4.64</td><td class="right highlight">4.86</td></tr>
+        <tr><td>Vocal Quality</td><td class="right">4.64</td><td class="right highlight">4.69</td></tr>
+        <tr><td>Emotional Delivery</td><td class="right">4.58</td><td class="right highlight">4.69</td></tr>
+        <tr><td>Song Order &amp; MC Flow</td><td class="right">4.45</td><td class="right highlight">4.74</td></tr>
+        <tr><td>Venue</td><td class="right">4.39</td><td class="right highlight">4.60</td></tr>
+        <tr><td>Value for Money</td><td class="right">4.85</td><td class="right highlight">4.86</td></tr>
+      </tbody>
+    </table>
+    <div class="insight">Non-singers rate every dimension higher. The biggest gap is Song Order &amp; MC (0.29) — choir singers notice structural and pacing issues that non-singers don't. Vocal Quality has the smallest gap — singers appreciate craft even while critiquing it.</div>
+  </div>
+```
+
+- [ ] **Step 5: Verify slides 3–6 in browser**
+
+Navigate to each slide and confirm: section card shows "§ 1.1" in large gold serif. Data slides show gold table headers, cream rows, alternating row tint, gold-light highlighted values, and muted italic insight callout at bottom.
+
+- [ ] **Step 6: Commit**
+
+```
+git add public/index.html
+git commit -m "add §1.1 section card and ratings slides"
+```
+
+---
+
+## Task 4: Slides 7–9 — Favourite Songs
+
+**Files:**
+- Modify: `public/index.html` — fill `id="s7"` through `id="s9"`
+
+- [ ] **Step 1: Add favourite songs overall (slide 7)**
+
+Replace `<div class="slide" id="s7"></div>` with:
+```html
+  <div class="slide" id="s7">
+    <div class="section-label">§ 1.1 — Favourite Songs (Q11)</div>
+    <div class="slide-title">Favourite Songs — Overall Ranking</div>
+    <table>
+      <thead><tr>
+        <th>Rank</th><th>Song</th>
+        <th class="right">Votes</th><th class="right">%</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>1</td><td class="highlight">ชีวิตลิขิตเอง</td><td class="right highlight">17</td><td class="right">25%</td></tr>
+        <tr><td>2</td><td>ยื้อ</td><td class="right">11</td><td class="right">16%</td></tr>
+        <tr><td>3</td><td>Zoo</td><td class="right">9</td><td class="right">13%</td></tr>
+        <tr><td>4</td><td>A Dream is a Wish Your Heart Makes</td><td class="right">7</td><td class="right">10%</td></tr>
+        <tr><td>4</td><td>Lesbia Mi Dicit Semper Male</td><td class="right">7</td><td class="right">10%</td></tr>
+        <tr><td>4</td><td>Into the New World</td><td class="right">7</td><td class="right">10%</td></tr>
+        <tr><td>7</td><td>เจ้านายคะ</td><td class="right">4</td><td class="right">6%</td></tr>
+        <tr><td>7</td><td>Until Love is Spoken</td><td class="right">4</td><td class="right">6%</td></tr>
+        <tr><td>9</td><td>Lux Aeterna</td><td class="right">1</td><td class="right">1%</td></tr>
+        <tr><td>9</td><td>Till There Was You</td><td class="right">1</td><td class="right">1%</td></tr>
+      </tbody>
+    </table>
+  </div>
+```
+
+- [ ] **Step 2: Add favourite songs by attendance (slide 8)**
+
+Replace `<div class="slide" id="s8"></div>` with:
+```html
+  <div class="slide" id="s8">
+    <div class="section-label">§ 1.1 — Favourite Songs (Q11)</div>
+    <div class="slide-title">Favourite Songs by Attendance History</div>
+    <table>
+      <thead><tr>
+        <th>Song</th>
+        <th class="right">First time (n=37)</th>
+        <th class="right">2nd time (n=22)</th>
+        <th class="right">3+ times (n=9)</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>ชีวิตลิขิตเอง</td><td class="right">9 (24%)</td><td class="right">6 (27%)</td><td class="right">2 (22%)</td></tr>
+        <tr><td>ยื้อ</td><td class="right">6 (16%)</td><td class="right">3 (14%)</td><td class="right">2 (22%)</td></tr>
+        <tr><td>Zoo</td><td class="right">5 (14%)</td><td class="right">3 (14%)</td><td class="right">1 (11%)</td></tr>
+        <tr><td>A Dream is a Wish Your Heart Makes</td><td class="right">3 (8%)</td><td class="right highlight">4 (18%)</td><td class="right">0</td></tr>
+        <tr><td>Lesbia Mi Dicit Semper Male</td><td class="right">3 (8%)</td><td class="right">3 (14%)</td><td class="right">1 (11%)</td></tr>
+        <tr><td>Into the New World</td><td class="right">3 (8%)</td><td class="right">3 (14%)</td><td class="right">1 (11%)</td></tr>
+        <tr><td>เจ้านายคะ</td><td class="right highlight">4 (11%)</td><td class="right">0</td><td class="right">0</td></tr>
+        <tr><td>Until Love is Spoken</td><td class="right">3 (8%)</td><td class="right">0</td><td class="right">1 (11%)</td></tr>
+        <tr><td>Lux Aeterna</td><td class="right">1 (3%)</td><td class="right">0</td><td class="right">0</td></tr>
+        <tr><td>Till There Was You</td><td class="right">0</td><td class="right">0</td><td class="right highlight">1 (11%)</td></tr>
+      </tbody>
+    </table>
+    <div class="insight">ชีวิตลิขิตเอง is consistently top (~22–27%). เจ้านายคะ is exclusively a first-timer favourite (11%) — returning audiences gave it zero votes despite it dominating Most Impressive Performance.</div>
+  </div>
+```
+
+- [ ] **Step 3: Add favourite songs by choir background (slide 9)**
+
+Replace `<div class="slide" id="s9"></div>` with:
+```html
+  <div class="slide" id="s9">
+    <div class="section-label">§ 1.1 — Favourite Songs (Q11)</div>
+    <div class="slide-title">Favourite Songs by Choir Background</div>
+    <table>
+      <thead><tr>
+        <th>Song</th>
+        <th class="right">Choir Singers (n=33)</th>
+        <th class="right">Non-Singers (n=35)</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>ชีวิตลิขิตเอง</td><td class="right">6 (18%)</td><td class="right highlight">11 (31%)</td></tr>
+        <tr><td>ยื้อ</td><td class="right highlight">6 (18%)</td><td class="right">5 (14%)</td></tr>
+        <tr><td>Zoo</td><td class="right">4 (12%)</td><td class="right">5 (14%)</td></tr>
+        <tr><td>A Dream is a Wish Your Heart Makes</td><td class="right">4 (12%)</td><td class="right">3 (9%)</td></tr>
+        <tr><td>Lesbia Mi Dicit Semper Male</td><td class="right">4 (12%)</td><td class="right">3 (9%)</td></tr>
+        <tr><td>Into the New World</td><td class="right">4 (12%)</td><td class="right">3 (9%)</td></tr>
+        <tr><td>เจ้านายคะ</td><td class="right highlight">3 (9%)</td><td class="right">1 (3%)</td></tr>
+        <tr><td>Until Love is Spoken</td><td class="right">1 (3%)</td><td class="right">3 (9%)</td></tr>
+        <tr><td>Lux Aeterna</td><td class="right">0</td><td class="right">1 (3%)</td></tr>
+        <tr><td>Till There Was You</td><td class="right">1 (3%)</td><td class="right">0</td></tr>
+      </tbody>
+    </table>
+    <div class="insight">ชีวิตลิขิตเอง is far more dominant with non-singers (31% vs 18%). Choir singers spread votes broadly across technically varied pieces. เจ้านายคะ is 3× more popular among singers (9% vs 3%).</div>
+  </div>
+```
+
+- [ ] **Step 4: Verify slides 7–9 in browser**
+
+Confirm all three song ranking tables render correctly. Thai text should display without issue (UTF-8 charset is set). Highlighted values appear in gold-light.
+
+- [ ] **Step 5: Commit**
+
+```
+git add public/index.html
+git commit -m "add favourite songs slides (overall + cross-tabs)"
+```
+
+---
+
+## Task 5: Slides 10–12 — Most Impressive Performance
+
+**Files:**
+- Modify: `public/index.html` — fill `id="s10"` through `id="s12"`
+
+- [ ] **Step 1: Add most impressive overall (slide 10)**
+
+Replace `<div class="slide" id="s10"></div>` with:
+```html
+  <div class="slide" id="s10">
+    <div class="section-label">§ 1.1 — Most Impressive Performance (Q12)</div>
+    <div class="slide-title">Most Impressive Performance — Overall</div>
+    <table>
+      <thead><tr>
+        <th>Rank</th><th>Song</th>
+        <th class="right">Votes</th><th class="right">%</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>1</td><td class="highlight">เจ้านายคะ</td><td class="right highlight">25</td><td class="right">37%</td></tr>
+        <tr><td>2</td><td>Zoo</td><td class="right">18</td><td class="right">26%</td></tr>
+        <tr><td>3</td><td>Into the New World</td><td class="right">16</td><td class="right">24%</td></tr>
+        <tr><td>4</td><td>ชีวิตลิขิตเอง</td><td class="right">4</td><td class="right">6%</td></tr>
+        <tr><td>5</td><td>Till There Was You</td><td class="right">2</td><td class="right">3%</td></tr>
+        <tr><td>5</td><td>Lesbia Mi Dicit Semper Male</td><td class="right">2</td><td class="right">3%</td></tr>
+        <tr><td>7</td><td>Lux Aeterna</td><td class="right">1</td><td class="right">1%</td></tr>
+      </tbody>
+    </table>
+    <div class="insight">เจ้านายคะ ranks 8th as a favourite song but 1st as most impressive. Audiences found it visually and emotionally spectacular even if it was not their personal top pick.</div>
+  </div>
+```
+
+- [ ] **Step 2: Add most impressive by attendance (slide 11)**
+
+Replace `<div class="slide" id="s11"></div>` with:
+```html
+  <div class="slide" id="s11">
+    <div class="section-label">§ 1.1 — Most Impressive Performance (Q12)</div>
+    <div class="slide-title">Most Impressive Performance by Attendance History</div>
+    <table>
+      <thead><tr>
+        <th>Song</th>
+        <th class="right">First time (n=37)</th>
+        <th class="right">2nd time (n=22)</th>
+        <th class="right">3+ times (n=9)</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>เจ้านายคะ</td><td class="right">12 (32%)</td><td class="right">7 (32%)</td><td class="right highlight">6 (67%)</td></tr>
+        <tr><td>Zoo</td><td class="right">10 (27%)</td><td class="right">6 (27%)</td><td class="right">2 (22%)</td></tr>
+        <tr><td>Into the New World</td><td class="right">9 (24%)</td><td class="right highlight">7 (32%)</td><td class="right">0</td></tr>
+        <tr><td>ชีวิตลิขิตเอง</td><td class="right">3 (8%)</td><td class="right">1 (5%)</td><td class="right">0</td></tr>
+        <tr><td>Till There Was You</td><td class="right">1 (3%)</td><td class="right">1 (5%)</td><td class="right">0</td></tr>
+        <tr><td>Lesbia Mi Dicit Semper Male</td><td class="right">1 (3%)</td><td class="right">0</td><td class="right">1 (11%)</td></tr>
+        <tr><td>Lux Aeterna</td><td class="right">1 (3%)</td><td class="right">0</td><td class="right">0</td></tr>
+      </tbody>
+    </table>
+    <div class="insight">เจ้านายคะ dominates with loyal fans (67%) — roughly double the rate of other groups. Into the New World earns zero votes from 3+ timers — its impact may rely on the surprise of hearing it for the first time.</div>
+  </div>
+```
+
+- [ ] **Step 3: Add most impressive by choir background (slide 12)**
+
+Replace `<div class="slide" id="s12"></div>` with:
+```html
+  <div class="slide" id="s12">
+    <div class="section-label">§ 1.1 — Most Impressive Performance (Q12)</div>
+    <div class="slide-title">Most Impressive Performance by Choir Background</div>
+    <table>
+      <thead><tr>
+        <th>Song</th>
+        <th class="right">Choir Singers (n=33)</th>
+        <th class="right">Non-Singers (n=35)</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>เจ้านายคะ</td><td class="right">12 (36%)</td><td class="right">13 (37%)</td></tr>
+        <tr><td>Zoo</td><td class="right">9 (27%)</td><td class="right">9 (26%)</td></tr>
+        <tr><td>Into the New World</td><td class="right">7 (21%)</td><td class="right">9 (26%)</td></tr>
+        <tr><td>ชีวิตลิขิตเอง</td><td class="right">2 (6%)</td><td class="right">2 (6%)</td></tr>
+        <tr><td>Till There Was You</td><td class="right">1 (3%)</td><td class="right">1 (3%)</td></tr>
+        <tr><td>Lesbia Mi Dicit Semper Male</td><td class="right">1 (3%)</td><td class="right">1 (3%)</td></tr>
+        <tr><td>Lux Aeterna</td><td class="right">1 (3%)</td><td class="right">0</td></tr>
+      </tbody>
+    </table>
+    <div class="insight">Most Impressive Performance is the most evenly split question — choir background has almost no effect. Both groups rank เจ้านายคะ &gt; Zoo &gt; Into the New World identically.</div>
+  </div>
+```
+
+- [ ] **Step 4: Verify and commit**
+
+```
+git add public/index.html
+git commit -m "add most impressive performance slides"
+```
+
+---
+
+## Task 6: Slides 13–15 — Concert Expectations (Q13)
+
+**Files:**
+- Modify: `public/index.html` — fill `id="s13"` through `id="s15"`
+
+- [ ] **Step 1: Add concert expectations overall (slide 13)**
+
+Replace `<div class="slide" id="s13"></div>` with:
+```html
+  <div class="slide" id="s13">
+    <div class="section-label">§ 1.1 — Concert Expectations (Q13 — multi-select, max 3)</div>
+    <div class="slide-title">Top Concert Expectations</div>
+    <table>
+      <thead><tr>
+        <th>Expectation</th>
+        <th class="right">Count</th><th class="right">% of respondents</th>
+      </tr></thead>
+      <tbody>
+        <tr><td class="highlight">ความไพเราะของเสียงร้อง — Beautiful vocal harmony</td><td class="right highlight">61</td><td class="right">90%</td></tr>
+        <tr><td>การเล่าเรื่องผ่านบทเพลง — Storytelling through music</td><td class="right">39</td><td class="right">57%</td></tr>
+        <tr><td>ความซาบซึ้งทางอารมณ์ — Emotional resonance</td><td class="right">35</td><td class="right">51%</td></tr>
+        <tr><td>ความสนุกสนาน — Fun &amp; enjoyment</td><td class="right">26</td><td class="right">38%</td></tr>
+        <tr><td>การแสดงที่สร้างแรงบันดาลใจ — Inspirational performance</td><td class="right">25</td><td class="right">37%</td></tr>
+        <tr><td>การเรียนรู้วัฒนธรรมและดนตรีใหม่ — Learning about music/culture</td><td class="right">12</td><td class="right">18%</td></tr>
+        <tr><td>ความเป็นศิลปะร่วมสมัย — Contemporary art experience</td><td class="right">12</td><td class="right">18%</td></tr>
+        <tr><td>การมีส่วนร่วมกับผู้แสดง — Audience-performer interaction</td><td class="right">4</td><td class="right">6%</td></tr>
+      </tbody>
+    </table>
+  </div>
+```
+
+- [ ] **Step 2: Add concert expectations by attendance (slide 14)**
+
+Replace `<div class="slide" id="s14"></div>` with:
+```html
+  <div class="slide" id="s14">
+    <div class="section-label">§ 1.1 — Concert Expectations (Q13)</div>
+    <div class="slide-title">Concert Expectations by Attendance History</div>
+    <table>
+      <thead><tr>
+        <th>Expectation</th>
+        <th class="right">First time (n=37)</th>
+        <th class="right">2nd time (n=22)</th>
+        <th class="right">3+ times (n=9)</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>Beautiful vocal harmony</td><td class="right">33 (89%)</td><td class="right">19 (86%)</td><td class="right highlight">9 (100%)</td></tr>
+        <tr><td>Storytelling through music</td><td class="right highlight">23 (62%)</td><td class="right">13 (59%)</td><td class="right">3 (33%)</td></tr>
+        <tr><td>Emotional resonance</td><td class="right highlight">22 (59%)</td><td class="right">11 (50%)</td><td class="right">2 (22%)</td></tr>
+        <tr><td>Fun &amp; enjoyment</td><td class="right highlight">18 (49%)</td><td class="right">6 (27%)</td><td class="right">2 (22%)</td></tr>
+        <tr><td>Inspirational performance</td><td class="right highlight">16 (43%)</td><td class="right">7 (32%)</td><td class="right">2 (22%)</td></tr>
+        <tr><td>Learning about music/culture</td><td class="right">7 (19%)</td><td class="right">2 (9%)</td><td class="right">3 (33%)</td></tr>
+        <tr><td>Contemporary art experience</td><td class="right">5 (14%)</td><td class="right highlight">7 (32%)</td><td class="right">0</td></tr>
+        <tr><td>Audience-performer interaction</td><td class="right highlight">4 (11%)</td><td class="right">0</td><td class="right">0</td></tr>
+      </tbody>
+    </table>
+    <div class="insight">Vocal harmony is universally expected — 100% of loyal fans. Loyal fans expect far less storytelling (33%) and emotional resonance (22%) — they come primarily for vocal craft.</div>
+  </div>
+```
+
+- [ ] **Step 3: Add concert expectations by choir background (slide 15)**
+
+Replace `<div class="slide" id="s15"></div>` with:
+```html
+  <div class="slide" id="s15">
+    <div class="section-label">§ 1.1 — Concert Expectations (Q13)</div>
+    <div class="slide-title">Concert Expectations by Choir Background</div>
+    <table>
+      <thead><tr>
+        <th>Expectation</th>
+        <th class="right">Choir Singers (n=33)</th>
+        <th class="right">Non-Singers (n=35)</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>Beautiful vocal harmony</td><td class="right">30 (91%)</td><td class="right">31 (89%)</td></tr>
+        <tr><td>Storytelling through music</td><td class="right">19 (58%)</td><td class="right">20 (57%)</td></tr>
+        <tr><td>Emotional resonance</td><td class="right">16 (48%)</td><td class="right">19 (54%)</td></tr>
+        <tr><td>Fun &amp; enjoyment</td><td class="right highlight">14 (42%)</td><td class="right">12 (34%)</td></tr>
+        <tr><td>Inspirational performance</td><td class="right highlight">14 (42%)</td><td class="right">11 (31%)</td></tr>
+        <tr><td>Learning about music/culture</td><td class="right">4 (12%)</td><td class="right highlight">8 (23%)</td></tr>
+        <tr><td>Contemporary art experience</td><td class="right">5 (15%)</td><td class="right">7 (20%)</td></tr>
+        <tr><td>Audience-performer interaction</td><td class="right highlight">3 (9%)</td><td class="right">1 (3%)</td></tr>
+      </tbody>
+    </table>
+    <div class="insight">Vocal harmony and storytelling are virtually identical across groups. Singers expect more fun (42% vs 34%) and inspiration (42% vs 31%). Non-singers more likely to expect learning opportunities (23% vs 12%).</div>
+  </div>
+```
+
+- [ ] **Step 4: Verify and commit**
+
+```
+git add public/index.html
+git commit -m "add concert expectations slides (Q13)"
+```
+
+---
+
+## Task 7: Slides 16–18 — Genre Preferences (Q14)
+
+**Files:**
+- Modify: `public/index.html` — fill `id="s16"` through `id="s18"`
+
+- [ ] **Step 1: Add genre preferences overall (slide 16)**
+
+Replace `<div class="slide" id="s16"></div>` with:
+```html
+  <div class="slide" id="s16">
+    <div class="section-label">§ 1.1 — Music Genre Preferences (Q14 — multi-select)</div>
+    <div class="slide-title">Genre Preferences — Overall</div>
+    <table>
+      <thead><tr>
+        <th>Genre</th>
+        <th class="right">Count</th><th class="right">% of respondents</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>เพลงจากละครเวทีภาษาต่างประเทศ — Foreign Musical Theatre</td><td class="right">26</td><td class="right">38%</td></tr>
+        <tr><td>เพลงตามยุคสมัยดนตรีตะวันตก — Western Classical</td><td class="right">26</td><td class="right">38%</td></tr>
+        <tr><td>เพลงร่วมสมัย — Contemporary Music</td><td class="right">25</td><td class="right">37%</td></tr>
+        <tr><td>เพลงสมัยนิยมภาษาต่างประเทศ — K-Pop / J-Pop</td><td class="right">23</td><td class="right">34%</td></tr>
+        <tr><td>เพลงสมัยนิยมภาษาไทย — Thai Pop (T-Pop)</td><td class="right">22</td><td class="right">32%</td></tr>
+        <tr><td>เพลงสมัยนิยมภาษาอังกฤษ — English Pop</td><td class="right">21</td><td class="right">31%</td></tr>
+        <tr><td>เพลงจากภาพยนตร์หรือซีรี่ย์ไทย — Thai Film / Drama OST</td><td class="right">19</td><td class="right">28%</td></tr>
+        <tr><td>เพลงจากละครเวทีภาษาไทย — Thai Musical Theatre</td><td class="right">19</td><td class="right">28%</td></tr>
+        <tr><td>เพลงศักดิ์สิทธิ์ — Sacred Music</td><td class="right">18</td><td class="right">26%</td></tr>
+        <tr><td>เพลงจากภาพยนตร์หรือซีรี่ย์ต่างประเทศ — Foreign Film / Drama OST</td><td class="right">18</td><td class="right">26%</td></tr>
+        <tr><td>เพลงไทยแนวอื่น — Thai Folk (Luktung / Luk Grung)</td><td class="right">13</td><td class="right">19%</td></tr>
+        <tr><td>เพลงพื้นบ้าน — Folklore</td><td class="right">12</td><td class="right">18%</td></tr>
+      </tbody>
+    </table>
+  </div>
+```
+
+- [ ] **Step 2: Add genre preferences by attendance (slide 17)**
+
+Replace `<div class="slide" id="s17"></div>` with:
+```html
+  <div class="slide" id="s17">
+    <div class="section-label">§ 1.1 — Genre Preferences (Q14)</div>
+    <div class="slide-title">Genre Preferences by Attendance History</div>
+    <table>
+      <thead><tr>
+        <th>Genre</th>
+        <th class="right">First time (n=37)</th>
+        <th class="right">2nd time (n=22)</th>
+        <th class="right">3+ times (n=9)</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>Foreign Musical Theatre</td><td class="right">14 (38%)</td><td class="right">8 (36%)</td><td class="right">4 (44%)</td></tr>
+        <tr><td>Western Classical</td><td class="right">12 (32%)</td><td class="right">9 (41%)</td><td class="right highlight">5 (56%)</td></tr>
+        <tr><td>Contemporary Music</td><td class="right">13 (35%)</td><td class="right">6 (27%)</td><td class="right highlight">6 (67%)</td></tr>
+        <tr><td>K-Pop / J-Pop</td><td class="right">12 (32%)</td><td class="right">8 (36%)</td><td class="right">3 (33%)</td></tr>
+        <tr><td>Thai Pop (T-Pop)</td><td class="right">11 (30%)</td><td class="right">7 (32%)</td><td class="right">4 (44%)</td></tr>
+        <tr><td>English Pop</td><td class="right">11 (30%)</td><td class="right highlight">10 (45%)</td><td class="right">0</td></tr>
+        <tr><td>Thai Film / Drama OST</td><td class="right">11 (30%)</td><td class="right">5 (23%)</td><td class="right">3 (33%)</td></tr>
+        <tr><td>Thai Musical Theatre</td><td class="right">10 (27%)</td><td class="right">5 (23%)</td><td class="right">4 (44%)</td></tr>
+        <tr><td>Sacred Music</td><td class="right highlight">12 (32%)</td><td class="right">3 (14%)</td><td class="right">3 (33%)</td></tr>
+        <tr><td>Foreign Film / Drama OST</td><td class="right">11 (30%)</td><td class="right">7 (32%)</td><td class="right">0</td></tr>
+        <tr><td>Thai Folk (Luktung / Luk Grung)</td><td class="right">4 (11%)</td><td class="right highlight">8 (36%)</td><td class="right">1 (11%)</td></tr>
+        <tr><td>Folklore</td><td class="right">5 (14%)</td><td class="right">4 (18%)</td><td class="right">3 (33%)</td></tr>
+      </tbody>
+    </table>
+    <div class="insight">Loyal fans (3+) strongly favour Western Classical (56%) and Contemporary Music (67%). English Pop drops to 0% for loyal fans despite peaking at 45% for 2nd-timers.</div>
+  </div>
+```
+
+- [ ] **Step 3: Add genre preferences by choir background (slide 18)**
+
+Replace `<div class="slide" id="s18"></div>` with:
+```html
+  <div class="slide" id="s18">
+    <div class="section-label">§ 1.1 — Genre Preferences (Q14)</div>
+    <div class="slide-title">Genre Preferences by Choir Background</div>
+    <table>
+      <thead><tr>
+        <th>Genre</th>
+        <th class="right">Choir Singers (n=33)</th>
+        <th class="right">Non-Singers (n=35)</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>Foreign Musical Theatre</td><td class="right highlight">18 (55%)</td><td class="right">8 (23%)</td></tr>
+        <tr><td>Western Classical</td><td class="right">10 (30%)</td><td class="right highlight">16 (46%)</td></tr>
+        <tr><td>Contemporary Music</td><td class="right">12 (36%)</td><td class="right">13 (37%)</td></tr>
+        <tr><td>K-Pop / J-Pop</td><td class="right">10 (30%)</td><td class="right">13 (37%)</td></tr>
+        <tr><td>Thai Pop (T-Pop)</td><td class="right">8 (24%)</td><td class="right highlight">14 (40%)</td></tr>
+        <tr><td>English Pop</td><td class="right">11 (33%)</td><td class="right">10 (29%)</td></tr>
+        <tr><td>Thai Film / Drama OST</td><td class="right highlight">11 (33%)</td><td class="right">8 (23%)</td></tr>
+        <tr><td>Thai Musical Theatre</td><td class="right highlight">13 (39%)</td><td class="right">6 (17%)</td></tr>
+        <tr><td>Sacred Music</td><td class="right highlight">11 (33%)</td><td class="right">7 (20%)</td></tr>
+        <tr><td>Foreign Film / Drama OST</td><td class="right">9 (27%)</td><td class="right">9 (26%)</td></tr>
+        <tr><td>Thai Folk (Luktung / Luk Grung)</td><td class="right">4 (12%)</td><td class="right highlight">9 (26%)</td></tr>
+        <tr><td>Folklore</td><td class="right highlight">7 (21%)</td><td class="right">5 (14%)</td></tr>
+      </tbody>
+    </table>
+    <div class="insight">Largest gap: Foreign Musical Theatre — singers 55% vs non-singers 23%. Non-singers strongly prefer Thai Pop (40% vs 24%) and Western Classical (46% vs 30%). Contemporary Music is virtually identical between groups.</div>
+  </div>
+```
+
+- [ ] **Step 4: Verify and commit**
+
+```
+git add public/index.html
+git commit -m "add genre preferences slides (Q14)"
+```
+
+---
+
+## Task 8: Slides 19–22 — §1.2 Section Card + What the Audience Loved Most
+
+**Files:**
+- Modify: `public/index.html` — fill `id="s19"` through `id="s22"`
+
+- [ ] **Step 1: Add §1.2 section card (slide 19)**
+
+Replace `<div class="slide" id="s19"></div>` with:
+```html
+  <div class="slide" id="s19">
+    <div class="section-card">
+      <div class="sc-num">§ 1.2</div>
+      <div class="sc-title">Reflections on Performance</div>
+      <div class="sc-sub">What the audience loved most · Messages to members</div>
+    </div>
+  </div>
+```
+
+- [ ] **Step 2: Add what loved most overall — themes + quotes (slide 20)**
+
+Replace `<div class="slide" id="s20"></div>` with:
+```html
+  <div class="slide" id="s20">
+    <div class="section-label">§ 1.2 — What the Audience Loved Most (Q15)</div>
+    <div class="slide-title">What the Audience Loved Most</div>
+    <div class="theme-list">
+      <div class="theme-block">
+        <div class="theme-heading">Vocal quality &amp; beauty</div>
+        <div class="theme-quote">"เพลงไพเราะ ผู้แสดงมีความตั้งใจทุ่มเท"</div>
+      </div>
+      <div class="theme-block">
+        <div class="theme-heading">Dedication &amp; passion</div>
+        <div class="theme-quote">"เห็นความทุ่มเทของนักร้อง"</div>
+      </div>
+      <div class="theme-block">
+        <div class="theme-heading">Diverse &amp; accessible song program</div>
+        <div class="theme-quote">"แนวเพลงที่หลากหลายกว่าเดิมมากขึ้น เพลงเข้าถึงคนทั่วไปได้มากขึ้น"</div>
+      </div>
+      <div class="theme-block">
+        <div class="theme-heading">Emotional storytelling</div>
+        <div class="theme-quote">"ประทับใจในนักร้องที่ดูอินกับการแสดงและมีความตั้งใจในการถ่ายทอดเรื่องราวผ่านบทเพลง"</div>
+      </div>
+      <div class="theme-block">
+        <div class="theme-heading">Dance elements in Zoo</div>
+        <div class="theme-quote">"เต้น!!! พีคมาก ไม่คาดคิด"</div>
+      </div>
+      <div class="theme-block">
+        <div class="theme-heading">Unity &amp; teamwork</div>
+        <div class="theme-quote">"ความเป็นน้ำหนึ่งใจเดียวกันของทีม"</div>
+      </div>
+      <div class="theme-block">
+        <div class="theme-heading">Program coherence with theme</div>
+        <div class="theme-quote">"เนื้อเพลงถูกร้อยเรียงออกมาให้อยู่ในหมวดหมู่เดียวกัน"</div>
+      </div>
+    </div>
+  </div>
+```
+
+- [ ] **Step 3: Add what loved by attendance (slide 21)**
+
+Replace `<div class="slide" id="s21"></div>` with:
+```html
+  <div class="slide" id="s21">
+    <div class="section-label">§ 1.2 — What the Audience Loved Most (Q15)</div>
+    <div class="slide-title">What the Audience Loved by Attendance History</div>
+    <table>
+      <thead><tr>
+        <th>Theme</th>
+        <th class="right">First time (22 resp)</th>
+        <th class="right">2nd time (18 resp)</th>
+        <th class="right">3+ times (8 resp)</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>Diverse / accessible repertoire</td><td class="right">2</td><td class="right highlight">6</td><td class="right">3</td></tr>
+        <tr><td>Vocal quality &amp; beauty</td><td class="right">4</td><td class="right">2</td><td class="right">2</td></tr>
+        <tr><td>Emotional delivery &amp; dedication</td><td class="right">4</td><td class="right">3</td><td class="right">1</td></tr>
+        <tr><td>Dance / choreography</td><td class="right highlight">4</td><td class="right">0</td><td class="right">0</td></tr>
+        <tr><td>Program coherence with theme</td><td class="right">3</td><td class="right">2</td><td class="right">2</td></tr>
+        <tr><td>Arrangement boldness &amp; quality</td><td class="right">0</td><td class="right">2</td><td class="right">0</td></tr>
+        <tr><td>Performers' joy &amp; energy</td><td class="right">1</td><td class="right">2</td><td class="right">1</td></tr>
+        <tr><td>Unity &amp; teamwork</td><td class="right">2</td><td class="right">0</td><td class="right">1</td></tr>
+      </tbody>
+    </table>
+    <div class="insight">Dance is exclusively a first-timer highlight — no 2nd or 3+ timer mentioned it. 2nd-timers most excited by diverse / accessible repertoire (6 of 18 responses).</div>
+  </div>
+```
+
+- [ ] **Step 4: Add what loved by choir background (slide 22)**
+
+Replace `<div class="slide" id="s22"></div>` with:
+```html
+  <div class="slide" id="s22">
+    <div class="section-label">§ 1.2 — What the Audience Loved Most (Q15)</div>
+    <div class="slide-title">What the Audience Loved by Choir Background</div>
+    <table>
+      <thead><tr>
+        <th>Theme</th>
+        <th class="right">Choir Singers (25 resp)</th>
+        <th class="right">Non-Singers (23 resp)</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>Dance / choreography</td><td class="right highlight">4</td><td class="right">1</td></tr>
+        <tr><td>Vocal quality &amp; beauty</td><td class="right">4</td><td class="right">2</td></tr>
+        <tr><td>Program coherence with theme</td><td class="right">4</td><td class="right">2</td></tr>
+        <tr><td>Dedication &amp; emotional delivery</td><td class="right">3</td><td class="right highlight">5</td></tr>
+        <tr><td>Diverse / accessible repertoire</td><td class="right">3</td><td class="right highlight">5</td></tr>
+        <tr><td>Arrangement boldness &amp; quality</td><td class="right">2</td><td class="right">0</td></tr>
+        <tr><td>Unity &amp; teamwork</td><td class="right">1</td><td class="right">2</td></tr>
+      </tbody>
+    </table>
+    <div class="insight">Choir singers are the primary champions of dance and notice arrangement quality ("Arrange เพลงดีมากครับ"). Non-singers are driven more by emotional impact and dedication.</div>
+  </div>
+```
+
+- [ ] **Step 5: Verify and commit**
+
+```
+git add public/index.html
+git commit -m "add §1.2 section card and what loved most slides (Q15)"
+```
+
+---
+
+## Task 9: Slides 23–25 — Messages to Members (Q18)
+
+**Files:**
+- Modify: `public/index.html` — fill `id="s23"` through `id="s25"`
+
+- [ ] **Step 1: Add messages to members overall (slide 23)**
+
+Replace `<div class="slide" id="s23"></div>` with:
+```html
+  <div class="slide" id="s23">
+    <div class="section-label">§ 1.2 — Messages to Members (Q18)</div>
+    <div class="slide-title">Messages to Members</div>
+    <div class="quote-list">
+      <div class="quote-item">
+        "เก่งมากๆ" / "ดีมาก"
+        <div class="quote-meta">Appeared in the majority of responses — overwhelmingly warm and encouraging</div>
+      </div>
+      <div class="quote-item">
+        "ขอให้วงเติบโต"
+        <div class="quote-meta">Audience wants to see the choir grow</div>
+      </div>
+      <div class="quote-item">
+        "Really good singers"
+        <div class="quote-meta">First-time attendee expressing intent to return (English response)</div>
+      </div>
+      <div class="quote-item">
+        "你们真厉害！"
+        <div class="quote-meta">Returning supporter — signs of diverse international reach (Chinese response)</div>
+      </div>
+    </div>
+    <div class="insight">Tone across all responses was overwhelmingly warm and encouraging. Multiple first-time attendees expressed intent to return.</div>
+  </div>
+```
+
+- [ ] **Step 2: Add messages by attendance (slide 24)**
+
+Replace `<div class="slide" id="s24"></div>` with:
+```html
+  <div class="slide" id="s24">
+    <div class="section-label">§ 1.2 — Messages to Members (Q18)</div>
+    <div class="slide-title">Messages to Members by Attendance History</div>
+    <table class="tone-table">
+      <thead><tr>
+        <th>Group</th><th>Tone</th><th>Notable Patterns</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td>First time (19 resp)</td>
+          <td class="tone">Enthusiastic, surprised</td>
+          <td class="notes">Express intent to return; reference specific songs; some include emoji; one English response ("Really good singers")</td>
+        </tr>
+        <tr>
+          <td>2nd time (17 resp)</td>
+          <td class="tone">Warm, invested</td>
+          <td class="notes">Mix of encouragement and embedded technical suggestions; one Chinese response (你们真厉害！); tone feels like a returning supporter</td>
+        </tr>
+        <tr>
+          <td>3+ times (8 resp)</td>
+          <td class="tone">Personal, familial</td>
+          <td class="notes">Most affectionate tone; acknowledge discipline and sacrifice required; use insider language; express international ambitions for the choir</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="insight">Messages grow progressively warmer and more personal with each return visit. Loyal fans treat the choir like family — their messages read less like feedback and more like notes from friends.</div>
+  </div>
+```
+
+- [ ] **Step 3: Add messages by choir background (slide 25)**
+
+Replace `<div class="slide" id="s25"></div>` with:
+```html
+  <div class="slide" id="s25">
+    <div class="section-label">§ 1.2 — Messages to Members (Q18)</div>
+    <div class="slide-title">Messages to Members by Choir Background</div>
+    <table class="tone-table">
+      <thead><tr>
+        <th>Group</th><th>Tone</th><th>Notable Patterns</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td>Choir Singers (22 resp)</td>
+          <td class="tone">Collegial, specific</td>
+          <td class="notes">Reference particular songs or technical moments; some express desire to join ("อยากมาร่วมงานด้วย"); encouragement with insider understanding</td>
+        </tr>
+        <tr>
+          <td>Non-Singers (22 resp)</td>
+          <td class="tone">Moved, inspired</td>
+          <td class="notes">Focus on emotional impact ("เติมไฟในใจ"); express wanting to come back; acknowledge dedication without technical vocabulary</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="insight">Choir singers write as peers who understand what it takes; non-singers write as audience members who were moved by something they can't fully articulate technically — both equally warm, but from different vantage points.</div>
+  </div>
+```
+
+- [ ] **Step 4: Verify and commit**
+
+```
+git add public/index.html
+git commit -m "add messages to members slides (Q18)"
+```
+
+---
+
+## Task 10: Slides 26–29 — §1.3 Section Card + Areas for Improvement
+
+**Files:**
+- Modify: `public/index.html` — fill `id="s26"` through `id="s29"`
+
+- [ ] **Step 1: Add §1.3 section card (slide 26)**
+
+Replace `<div class="slide" id="s26"></div>` with:
+```html
+  <div class="slide" id="s26">
+    <div class="section-card">
+      <div class="sc-num">§ 1.3</div>
+      <div class="sc-title">Lessons Learned &amp; Post-Concert Review</div>
+      <div class="sc-sub">Areas for improvement · Future wishes · Audience profile</div>
+    </div>
+  </div>
+```
+
+- [ ] **Step 2: Add areas for improvement overall (slide 27)**
+
+Replace `<div class="slide" id="s27"></div>` with:
+```html
+  <div class="slide" id="s27">
+    <div class="section-label">§ 1.3 — Areas for Improvement (Q16)</div>
+    <div class="slide-title">Areas for Improvement</div>
+    <div class="theme-list">
+      <div class="theme-block">
+        <div class="theme-heading">1. Venue &amp; Seating — ~10 mentions</div>
+        <div class="theme-quote">"สถานที่ค่อนข้างเล็กและบัตรเต็มเร็ว" · "ที่นั่งน้อย จองยาก เต็มไวมาก" · "การจัดที่นั่งให้สลับให้เกิดช่องว่างจะได้ไม่บังกัน"</div>
+      </div>
+      <div class="theme-block">
+        <div class="theme-heading">2. Vocal Balance &amp; Technique — ~5 mentions</div>
+        <div class="theme-quote">"balance บางท่อนของเพลง, ความกล้าของ soprano เวลาโผล่ออกมา" · "เพลงที่ 9 ควรเพิ่มเบส"</div>
+      </div>
+      <div class="theme-block">
+        <div class="theme-heading">3. Show Duration &amp; Flow — ~4 mentions</div>
+        <div class="theme-quote">"เวลาแสดงน้อยไปหน่อย" · "ควรมีการกันแขกเดินเข้าออกระหว่างเพลง"</div>
+      </div>
+      <div class="theme-block">
+        <div class="theme-heading">4. Song Flow &amp; Program Direction — ~4 mentions</div>
+        <div class="theme-quote">"การเลือกเพลงควรไล่ลำดับอารมณ์" · "the dance broken the flow of the music direction"</div>
+      </div>
+      <div class="theme-block">
+        <div class="theme-heading">5. Storytelling &amp; Narration — ~2 mentions</div>
+        <div class="theme-quote">"การเล่าเรื่องเพิ่มอีกสักหน่อยครับ"</div>
+      </div>
+    </div>
+  </div>
+```
+
+- [ ] **Step 3: Add improvements by attendance (slide 28)**
+
+Replace `<div class="slide" id="s28"></div>` with:
+```html
+  <div class="slide" id="s28">
+    <div class="section-label">§ 1.3 — Areas for Improvement (Q16)</div>
+    <div class="slide-title">Areas for Improvement by Attendance History</div>
+    <table>
+      <thead><tr>
+        <th>Theme</th>
+        <th class="right">First time (7 resp)</th>
+        <th class="right">2nd time (13 resp)</th>
+        <th class="right">3+ times (5 resp)</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>Venue size &amp; ticket availability</td><td class="right">2</td><td class="right highlight">5</td><td class="right">0</td></tr>
+        <tr><td>Seating arrangement</td><td class="right">1</td><td class="right">2</td><td class="right">0</td></tr>
+        <tr><td>Vocal quality / technique</td><td class="right">0</td><td class="right">3</td><td class="right highlight">3</td></tr>
+        <tr><td>Show duration (too short)</td><td class="right">1</td><td class="right">1</td><td class="right">0</td></tr>
+        <tr><td>Song flow / program direction</td><td class="right">1</td><td class="right">2</td><td class="right">0</td></tr>
+        <tr><td>Venue logistics (AC, food, signage)</td><td class="right">2</td><td class="right">1</td><td class="right">0</td></tr>
+        <tr><td>Dance pacing</td><td class="right">0</td><td class="right">1</td><td class="right">0</td></tr>
+        <tr><td>Guest movement between songs</td><td class="right">0</td><td class="right">0</td><td class="right">1</td></tr>
+        <tr><td>Narration / storytelling</td><td class="right">1</td><td class="right">0</td><td class="right">0</td></tr>
+      </tbody>
+    </table>
+    <div class="insight">Venue/seating dominates 2nd-timer feedback. 3+ timers focus almost entirely on vocal technique — the most demanding critics with the most specific feedback.</div>
+  </div>
+```
+
+- [ ] **Step 4: Add improvements by choir background (slide 29)**
+
+Replace `<div class="slide" id="s29"></div>` with:
+```html
+  <div class="slide" id="s29">
+    <div class="section-label">§ 1.3 — Areas for Improvement (Q16)</div>
+    <div class="slide-title">Areas for Improvement by Choir Background</div>
+    <table>
+      <thead><tr>
+        <th>Theme</th>
+        <th class="right">Choir Singers (11 resp)</th>
+        <th class="right">Non-Singers (14 resp)</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>Vocal technique (harmonization, soprano, bass)</td><td class="right highlight">4</td><td class="right">2</td></tr>
+        <tr><td>Venue size &amp; ticket availability</td><td class="right">2</td><td class="right highlight">4</td></tr>
+        <tr><td>Seating arrangement</td><td class="right">0</td><td class="right">2</td></tr>
+        <tr><td>Show duration</td><td class="right">1</td><td class="right">1</td></tr>
+        <tr><td>Song flow / program direction</td><td class="right">1</td><td class="right">2</td></tr>
+        <tr><td>Venue logistics (AC, food, signage)</td><td class="right">2</td><td class="right">1</td></tr>
+        <tr><td>Ensemble readiness</td><td class="right">1</td><td class="right">0</td></tr>
+        <tr><td>Guest movement between songs</td><td class="right">1</td><td class="right">0</td></tr>
+      </tbody>
+    </table>
+    <div class="insight">Vocal technique critique is concentrated among choir singers — they hear specific issues that non-singers notice only generally. Non-singers more focused on venue logistics and seating.</div>
+  </div>
+```
+
+- [ ] **Step 5: Verify and commit**
+
+```
+git add public/index.html
+git commit -m "add §1.3 section card and improvements slides (Q16)"
+```
+
+---
+
+## Task 11: Slides 30–32 — Future Wishes (Q17)
+
+**Files:**
+- Modify: `public/index.html` — fill `id="s30"` through `id="s32"`
+
+- [ ] **Step 1: Add future wishes overall (slide 30)**
+
+Replace `<div class="slide" id="s30"></div>` with:
+```html
+  <div class="slide" id="s30">
+    <div class="section-label">§ 1.3 — Future Wishes for Kangwan Singers (Q17)</div>
+    <div class="slide-title">Future Wishes — 38 of 68 respondents (56%)</div>
+    <div class="theme-list">
+      <div class="theme-block">
+        <div class="theme-heading">1. Bigger ensemble / more members — most common wish</div>
+        <div class="theme-quote">Choir singers want more voice-part balance; non-singers want to bring more people</div>
+      </div>
+      <div class="theme-block">
+        <div class="theme-heading">2. Bigger venue or full production</div>
+        <div class="theme-quote">Linked to ensemble growth — more members means a bigger stage is possible</div>
+      </div>
+      <div class="theme-block">
+        <div class="theme-heading">3. International competition</div>
+        <div class="theme-quote">Especially strong among loyal fans — one envisions performing at Lumphini Park for Thai and international audiences</div>
+      </div>
+      <div class="theme-block">
+        <div class="theme-heading">4. Musical theatre repertoire</div>
+        <div class="theme-quote">Strong across both singers and 2nd/3+ timers</div>
+      </div>
+      <div class="theme-block">
+        <div class="theme-heading">5. Audience interaction</div>
+        <div class="theme-quote">Want more two-way engagement during the show — sing-alongs, Q&amp;A</div>
+      </div>
+      <div class="theme-block">
+        <div class="theme-heading">6. Diverse / themed programming</div>
+        <div class="theme-quote">"Disney night, T-Pop set, anime songs — Attack on Titan, Demon Slayer — guaranteed an audience"</div>
+      </div>
+    </div>
+  </div>
+```
+
+- [ ] **Step 2: Add future wishes by attendance (slide 31)**
+
+Replace `<div class="slide" id="s31"></div>` with:
+```html
+  <div class="slide" id="s31">
+    <div class="section-label">§ 1.3 — Future Wishes (Q17)</div>
+    <div class="slide-title">Future Wishes by Attendance History</div>
+    <table>
+      <thead><tr>
+        <th>Theme</th>
+        <th class="right">First time (16 resp)</th>
+        <th class="right">2nd time (14 resp)</th>
+        <th class="right">3+ times (8 resp)</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>Bigger ensemble / more members</td><td class="right highlight">4</td><td class="right">1</td><td class="right">2</td></tr>
+        <tr><td>Bigger venue / full production</td><td class="right">2</td><td class="right">1</td><td class="right">1</td></tr>
+        <tr><td>Musical theatre repertoire</td><td class="right">1</td><td class="right">2</td><td class="right">1</td></tr>
+        <tr><td>Specific genre additions</td><td class="right">1</td><td class="right highlight">3</td><td class="right">0</td></tr>
+        <tr><td>Theme / concept concerts</td><td class="right">2</td><td class="right">1</td><td class="right">0</td></tr>
+        <tr><td>International competition</td><td class="right">0</td><td class="right">1</td><td class="right highlight">3</td></tr>
+        <tr><td>Audience interaction</td><td class="right">0</td><td class="right">0</td><td class="right highlight">2</td></tr>
+        <tr><td>More instruments / live band</td><td class="right">1</td><td class="right">0</td><td class="right">0</td></tr>
+        <tr><td>More shows / keep going</td><td class="right">1</td><td class="right">2</td><td class="right">1</td></tr>
+      </tbody>
+    </table>
+    <div class="insight">First-timers want scale — "make it bigger". Loyal fans (3+) are most ambitious: 3 of 8 mention international competition, 2 specifically want audience interaction built into future shows.</div>
+  </div>
+```
+
+- [ ] **Step 3: Add future wishes by choir background (slide 32)**
+
+Replace `<div class="slide" id="s32"></div>` with:
+```html
+  <div class="slide" id="s32">
+    <div class="section-label">§ 1.3 — Future Wishes (Q17)</div>
+    <div class="slide-title">Future Wishes by Choir Background</div>
+    <table>
+      <thead><tr>
+        <th>Theme</th>
+        <th class="right">Choir Singers (20 resp)</th>
+        <th class="right">Non-Singers (18 resp)</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>Bigger ensemble / more members</td><td class="right highlight">5</td><td class="right">3</td></tr>
+        <tr><td>Musical theatre repertoire</td><td class="right highlight">3</td><td class="right">2</td></tr>
+        <tr><td>Quality / technical improvement</td><td class="right">2</td><td class="right">1</td></tr>
+        <tr><td>Diverse / themed programming</td><td class="right">3</td><td class="right">1</td></tr>
+        <tr><td>International competition</td><td class="right">2</td><td class="right">2</td></tr>
+        <tr><td>Audience interaction</td><td class="right">1</td><td class="right">1</td></tr>
+        <tr><td>Accessible / popular songs</td><td class="right">1</td><td class="right">2</td></tr>
+        <tr><td>Bigger venue / full production</td><td class="right">1</td><td class="right">2</td></tr>
+        <tr><td>More shows / keep going</td><td class="right">1</td><td class="right">2</td></tr>
+      </tbody>
+    </table>
+    <div class="insight">Choir singers overwhelmingly want a bigger ensemble (5 of 20) — they understand directly how voice-part balance depends on headcount. Both groups share equal enthusiasm for international competition.</div>
+  </div>
+```
+
+- [ ] **Step 4: Verify and commit**
+
+```
+git add public/index.html
+git commit -m "add future wishes slides (Q17)"
+```
+
+---
+
+## Task 12: Slide 33 — Audience Profile + Final Verification
+
+**Files:**
+- Modify: `public/index.html` — fill `id="s33"`
+
+- [ ] **Step 1: Add audience profile slide (slide 33)**
+
+Replace `<div class="slide" id="s33"></div>` with:
+```html
+  <div class="slide" id="s33">
+    <div class="section-label">§ 1.3 — Audience Profile</div>
+    <div class="slide-title">Audience Profile — 68 responses</div>
+    <div class="profile-grid">
+      <div class="profile-panel">
+        <h3>Attendance History</h3>
+        <table>
+          <thead><tr>
+            <th>Visit</th><th class="right">Count</th><th class="right">%</th>
+          </tr></thead>
+          <tbody>
+            <tr><td class="highlight">First time</td><td class="right highlight">37</td><td class="right">54%</td></tr>
+            <tr><td>2nd time</td><td class="right">22</td><td class="right">32%</td></tr>
+            <tr><td>3rd or 4th time</td><td class="right">2</td><td class="right">3%</td></tr>
+            <tr><td>5+ times (loyal fans)</td><td class="right">7</td><td class="right">10%</td></tr>
+          </tbody>
+        </table>
+        <div class="insight" style="margin-top:12px">More than half the audience was new — strong word-of-mouth reach this year.</div>
+      </div>
+      <div class="profile-panel">
+        <h3>Choir Background</h3>
+        <table>
+          <thead><tr>
+            <th>Background</th><th class="right">Count</th><th class="right">%</th>
+          </tr></thead>
+          <tbody>
+            <tr><td>Choir singers</td><td class="right">33</td><td class="right">49%</td></tr>
+            <tr><td>Non-singers</td><td class="right">35</td><td class="right">51%</td></tr>
+          </tbody>
+        </table>
+        <div class="insight" style="margin-top:12px">Nearly half the audience are fellow choir singers — an engaged and discerning crowd who notice technical detail.</div>
+      </div>
+    </div>
+  </div>
+```
+
+- [ ] **Step 2: Full end-to-end browser verification**
+
+Open `public/index.html` and walk through all 33 slides:
+- Slide 1: Logo visible, "Hope · Hurt · Heal" in large gold serif, date and subtitle present
+- Slide 2: Three agenda cards clickable — clicking §1.1 jumps to slide 3, §1.2 to slide 19, §1.3 to slide 26
+- Slides 3, 19, 26: Large gold section number, title, subtitle — no data content
+- All data slides: Gold section label top-left, serif slide title, table with gold headers and alternating rows, insight callout at bottom
+- Thai characters render correctly throughout
+- Keyboard left/right arrows advance slides; spacebar advances forward
+- Counter shows correct position (e.g. "25 / 33" on slide 25)
+- Logo path `../logojpg.jpg` loads correctly on slide 1 (no broken image)
+
+- [ ] **Step 3: Final commit**
+
+```
+git add public/index.html
+git commit -m "add audience profile slide and complete all 33 slides"
+```
+
+- [ ] **Step 4: Push to remote**
+
+```
+git push
+```
