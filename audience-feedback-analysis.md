@@ -60,6 +60,48 @@ Post-Concert Meeting No. 5 | 5 June 2026
 | 9 | Lux Aeterna | 1 | 1% |
 | 9 | Till There Was You | 1 | 1% |
 
+### Favourite Songs by Attendance History
+
+| Song | First time (n=37) | 2nd time (n=22) | 3+ times (n=9) |
+|---|---|---|---|
+| ชีวิตลิขิตเอง | 9 (24%) | 6 (27%) | 2 (22%) |
+| ยื้อ | 6 (16%) | 3 (14%) | 2 (22%) |
+| Zoo | 5 (14%) | 3 (14%) | 1 (11%) |
+| A Dream is a Wish Your Heart Makes | 3 (8%) | **4 (18%)** | 0 |
+| Lesbia Mi Dicit Semper Male | 3 (8%) | 3 (14%) | 1 (11%) |
+| Into the New World | 3 (8%) | 3 (14%) | 1 (11%) |
+| เจ้านายคะ | **4 (11%)** | 0 | 0 |
+| Until Love is Spoken | 3 (8%) | 0 | 1 (11%) |
+| Lux Aeterna | 1 (3%) | 0 | 0 |
+| Till There Was You | 0 | 0 | 1 (11%) |
+
+**Key insights:**
+- ชีวิตลิขิตเอง is the top pick consistently across all groups (~22–27%)
+- เจ้านายคะ is exclusively a first-timer favourite (11%) — returning audiences gave it zero votes as a favourite song, even though it dominates Most Impressive Performance
+- A Dream is a Wish Your Heart Makes peaks with 2nd-timers (18%) — familiarity may deepen appreciation
+- Loyal fans spread votes more evenly across niche repertoire; no single runaway favourite
+
+### Favourite Songs by Choir Background
+
+| Song | Choir Singers (n=33) | Non-Singers (n=35) |
+|---|---|---|
+| ชีวิตลิขิตเอง | 6 (18%) | **11 (31%)** |
+| ยื้อ | **6 (18%)** | 5 (14%) |
+| Zoo | 4 (12%) | 5 (14%) |
+| A Dream is a Wish Your Heart Makes | 4 (12%) | 3 (9%) |
+| Lesbia Mi Dicit Semper Male | 4 (12%) | 3 (9%) |
+| Into the New World | 4 (12%) | 3 (9%) |
+| เจ้านายคะ | **3 (9%)** | 1 (3%) |
+| Until Love is Spoken | 1 (3%) | 3 (9%) |
+| Lux Aeterna | 0 | 1 (3%) |
+| Till There Was You | 1 (3%) | 0 |
+
+**Key insights:**
+- ชีวิตลิขิตเอง is far more dominant with non-singers (31% vs 18%) — the Thai pop style resonates most with the general audience
+- Choir singers spread votes broadly across technically varied pieces (A Dream, Lesbia, Into the New World, เจ้านายคะ — all at 12%)
+- เจ้านายคะ is 3× more popular as a favourite song among singers (9% vs 3%), consistent with their higher appreciation for its technical and theatrical demands
+- ยื้อ is the one song where singers edge out non-singers (18% vs 14%)
+
 ### Most Impressive Performance (Q12)
 
 | Rank | Song | Votes | % |
