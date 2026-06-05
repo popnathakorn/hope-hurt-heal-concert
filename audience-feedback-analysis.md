@@ -116,13 +116,155 @@ Post-Concert Meeting No. 5 | 5 June 2026
 
 > **Key insight:** เจ้านายคะ ranks 8th as a favourite song but 1st as the most impressive performance. Audiences found it visually and emotionally spectacular even if it was not their personal top pick.
 
-### Top Concert Expectations (Q13 — multi-select)
+### Most Impressive Performance by Attendance History
 
-1. ความไพเราะของเสียงร้อง — Beautiful vocal harmony
-2. ความสนุกสนาน — Fun & enjoyment
-3. ความซาบซึ้งทางอารมณ์ — Emotional resonance
-4. การเล่าเรื่องผ่านบทเพลง — Storytelling through music
-5. การแสดงที่สร้างแรงบันดาลใจ — Inspirational performance
+| Song | First time (n=37) | 2nd time (n=22) | 3+ times (n=9) |
+|---|---|---|---|
+| เจ้านายคะ | 12 (32%) | 7 (32%) | **6 (67%)** |
+| Zoo | 10 (27%) | 6 (27%) | 2 (22%) |
+| Into the New World | 9 (24%) | 7 (32%) | 0 |
+| ชีวิตลิขิตเอง | 3 (8%) | 1 (5%) | 0 |
+| Till There Was You | 1 (3%) | 1 (5%) | 0 |
+| Lesbia Mi Dicit Semper Male | 1 (3%) | 0 | 1 (11%) |
+| Lux Aeterna | 1 (3%) | 0 | 0 |
+
+**Key insights:**
+- เจ้านายคะ dominates with loyal fans (67%) — roughly double the rate of other groups
+- Into the New World earns zero votes from 3+ timers despite ranking 3rd overall — its impact may rely on the surprise of hearing it for the first time
+- Zoo is the most consistent pick across all groups (~22–27%)
+
+### Most Impressive Performance by Choir Background
+
+| Song | Choir Singers (n=33) | Non-Singers (n=35) |
+|---|---|---|
+| เจ้านายคะ | 12 (36%) | 13 (37%) |
+| Zoo | 9 (27%) | 9 (26%) |
+| Into the New World | 7 (21%) | 9 (26%) |
+| ชีวิตลิขิตเอง | 2 (6%) | 2 (6%) |
+| Till There Was You | 1 (3%) | 1 (3%) |
+| Lesbia Mi Dicit Semper Male | 1 (3%) | 1 (3%) |
+| Lux Aeterna | 1 (3%) | 0 |
+
+**Key insights:**
+- Most Impressive Performance is the most evenly split question — choir background has almost no effect on which performance audiences found most spectacular
+- Both groups rank เจ้านายคะ > Zoo > Into the New World identically
+- Into the New World is slightly more favoured by non-singers (26% vs 21%) — perhaps its theatrical K-pop style resonates more with the general audience
+
+### Top Concert Expectations (Q13 — multi-select, max 3)
+
+| Expectation | Count | % of respondents |
+|---|---|---|
+| ความไพเราะของเสียงร้อง — Beautiful vocal harmony | 61 | 90% |
+| การเล่าเรื่องผ่านบทเพลง — Storytelling through music | 39 | 57% |
+| ความซาบซึ้งทางอารมณ์ — Emotional resonance | 35 | 51% |
+| ความสนุกสนาน — Fun & enjoyment | 26 | 38% |
+| การแสดงที่สร้างแรงบันดาลใจ — Inspirational performance | 25 | 37% |
+| การเรียนรู้วัฒนธรรมและดนตรีใหม่ — Learning about music/culture | 12 | 18% |
+| ความเป็นศิลปะร่วมสมัย — Contemporary art experience | 12 | 18% |
+| การมีส่วนร่วมกับผู้แสดง — Audience-performer interaction | 4 | 6% |
+
+### Concert Expectations by Attendance History
+
+| Expectation | First time (n=37) | 2nd time (n=22) | 3+ times (n=9) |
+|---|---|---|---|
+| Beautiful vocal harmony | 33 (89%) | 19 (86%) | **9 (100%)** |
+| Storytelling through music | **23 (62%)** | 13 (59%) | 3 (33%) |
+| Emotional resonance | **22 (59%)** | 11 (50%) | 2 (22%) |
+| Fun & enjoyment | **18 (49%)** | 6 (27%) | 2 (22%) |
+| Inspirational performance | **16 (43%)** | 7 (32%) | 2 (22%) |
+| Learning about music/culture | 7 (19%) | 2 (9%) | 3 (33%) |
+| Contemporary art experience | 5 (14%) | **7 (32%)** | 0 |
+| Audience-performer interaction | **4 (11%)** | 0 | 0 |
+
+**Key insights:**
+- Vocal harmony is universally expected — 100% of loyal fans, ~89% of everyone else
+- Loyal fans expect far less storytelling (33%), emotional resonance (22%), and fun (22%) — they come primarily for vocal craft
+- 2nd-timers are 2× more likely to seek a contemporary art experience (32% vs 14% for first-timers) — they arrive with a more critical, aesthetic lens
+- Audience-performer interaction is exclusively a first-timer expectation (11% vs 0%)
+
+### Concert Expectations by Choir Background
+
+| Expectation | Choir Singers (n=33) | Non-Singers (n=35) |
+|---|---|---|
+| Beautiful vocal harmony | 30 (91%) | 31 (89%) |
+| Storytelling through music | 19 (58%) | 20 (57%) |
+| Emotional resonance | 16 (48%) | 19 (54%) |
+| Fun & enjoyment | **14 (42%)** | 12 (34%) |
+| Inspirational performance | **14 (42%)** | 11 (31%) |
+| Learning about music/culture | 4 (12%) | **8 (23%)** |
+| Contemporary art experience | 5 (15%) | 7 (20%) |
+| Audience-performer interaction | **3 (9%)** | 1 (3%) |
+
+**Key insights:**
+- Vocal harmony and storytelling expectations are virtually identical across both groups
+- Singers expect more fun (42% vs 34%) and inspiration (42% vs 31%) — possibly because they understand how hard it is to deliver these
+- Non-singers are more likely to expect learning opportunities (23% vs 12%) — they come partly to discover choral music
+- Audience-performer interaction is more common among singers (9% vs 3%)
+
+### Music Genre Preferences (Q14 — multi-select)
+
+| Genre | Count | % of respondents |
+|---|---|---|
+| เพลงจากละครเวทีภาษาต่างประเทศ — Foreign Musical Theatre | 26 | 38% |
+| เพลงตามยุคสมัยดนตรีตะวันตก — Western Classical | 26 | 38% |
+| เพลงร่วมสมัย — Contemporary Music | 25 | 37% |
+| เพลงสมัยนิยมภาษาต่างประเทศ — K-Pop / J-Pop | 23 | 34% |
+| เพลงสมัยนิยมภาษาไทย — Thai Pop (T-Pop) | 22 | 32% |
+| เพลงสมัยนิยมภาษาอังกฤษ — English Pop | 21 | 31% |
+| เพลงจากภาพยนตร์หรือซีรี่ย์ไทย — Thai Film / Drama OST | 19 | 28% |
+| เพลงจากละครเวทีภาษาไทย — Thai Musical Theatre | 19 | 28% |
+| เพลงศักดิ์สิทธิ์ — Sacred Music | 18 | 26% |
+| เพลงจากภาพยนตร์หรือซีรี่ย์ต่างประเทศ — Foreign Film / Drama OST | 18 | 26% |
+| เพลงไทยแนวอื่น — Thai Folk (Luktung / Luk Grung) | 13 | 19% |
+| เพลงพื้นบ้าน — Folklore | 12 | 18% |
+
+### Genre Preferences by Attendance History
+
+| Genre | First time (n=37) | 2nd time (n=22) | 3+ times (n=9) |
+|---|---|---|---|
+| Foreign Musical Theatre | 14 (38%) | 8 (36%) | 4 (44%) |
+| Western Classical | 12 (32%) | 9 (41%) | **5 (56%)** |
+| Contemporary Music | 13 (35%) | 6 (27%) | **6 (67%)** |
+| K-Pop / J-Pop | 12 (32%) | 8 (36%) | 3 (33%) |
+| Thai Pop (T-Pop) | 11 (30%) | 7 (32%) | 4 (44%) |
+| English Pop | 11 (30%) | **10 (45%)** | 0 |
+| Thai Film / Drama OST | 11 (30%) | 5 (23%) | 3 (33%) |
+| Thai Musical Theatre | 10 (27%) | 5 (23%) | 4 (44%) |
+| Sacred Music | **12 (32%)** | 3 (14%) | 3 (33%) |
+| Foreign Film / Drama OST | 11 (30%) | 7 (32%) | 0 |
+| Thai Folk (Luktung / Luk Grung) | 4 (11%) | **8 (36%)** | 1 (11%) |
+| Folklore | 5 (14%) | 4 (18%) | 3 (33%) |
+
+**Key insights:**
+- Loyal fans (3+) strongly favour Western Classical (56%) and Contemporary Music (67%) — the most artistically demanding genres
+- English Pop drops to 0% for loyal fans despite peaking at 45% for 2nd-timers — returning audiences want more sophisticated repertoire
+- Foreign Film / Drama OST also drops to 0% for loyal fans
+- Thai Folk (Luktung / Luk Grung) peaks sharply with 2nd-timers (36%) vs first-timers (11%) — a distinctly acquired taste
+- Sacred Music is strong with first-timers (32%) and 3+ timers but weak with 2nd-timers (14%)
+
+### Genre Preferences by Choir Background
+
+| Genre | Choir Singers (n=33) | Non-Singers (n=35) |
+|---|---|---|
+| Foreign Musical Theatre | **18 (55%)** | 8 (23%) |
+| Western Classical | 10 (30%) | **16 (46%)** |
+| Contemporary Music | 12 (36%) | 13 (37%) |
+| K-Pop / J-Pop | 10 (30%) | 13 (37%) |
+| Thai Pop (T-Pop) | 8 (24%) | **14 (40%)** |
+| English Pop | 11 (33%) | 10 (29%) |
+| Thai Film / Drama OST | **11 (33%)** | 8 (23%) |
+| Thai Musical Theatre | **13 (39%)** | 6 (17%) |
+| Sacred Music | **11 (33%)** | 7 (20%) |
+| Foreign Film / Drama OST | 9 (27%) | 9 (26%) |
+| Thai Folk (Luktung / Luk Grung) | 4 (12%) | **9 (26%)** |
+| Folklore | **7 (21%)** | 5 (14%) |
+
+**Key insights:**
+- Largest gap: Foreign Musical Theatre — singers 55% vs non-singers 23%; choir singers love performing from musical theatre repertoire
+- Thai Musical Theatre is similarly skewed toward singers (39% vs 17%)
+- Non-singers strongly prefer Thai Pop T-Pop (40% vs 24%) and Western Classical (46% vs 30%) — they want either accessible pop or concert-hall material
+- Contemporary Music is virtually identical between groups (36% vs 37%) — the most universally appealing genre category
+- Foreign Film / Drama OST is the most balanced dimension (27% vs 26%)
 
 ---
 
