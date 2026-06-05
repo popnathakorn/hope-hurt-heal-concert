@@ -14,6 +14,8 @@
   --panel:#2d0010;
   --row-alt:#221008;
   --muted:#a07040;
+  --border-hi:var(--border-hi);
+  --border-lo:var(--border-lo);
 }
 body{
   background:var(--bg-dark);
@@ -51,10 +53,10 @@ table{
 th{
   text-align:left;padding:9px 13px;color:var(--gold);
   font-size:11px;letter-spacing:1px;text-transform:uppercase;
-  border-bottom:1px solid #5a1020;font-weight:600
+  border-bottom:1px solid var(--border-hi);font-weight:600
 }
 th.right,td.right{text-align:right}
-td{padding:8px 13px;border-bottom:1px solid #3a0015;color:var(--text)}
+td{padding:8px 13px;border-bottom:1px solid var(--border-lo);color:var(--text)}
 tr:last-child td{border-bottom:none}
 tr:nth-child(even) td{background:var(--row-alt)}
 td.highlight{color:var(--gold-light);font-weight:700}
@@ -84,10 +86,10 @@ td.highlight{color:var(--gold-light);font-weight:700}
 #nav{
   display:flex;align-items:center;justify-content:center;gap:20px;
   padding:11px 24px;background:rgba(26,0,8,.97);
-  border-top:1px solid #3a0015;flex-shrink:0
+  border-top:1px solid var(--border-lo);flex-shrink:0
 }
 #nav button{
-  background:var(--panel);color:var(--gold);border:1px solid #5a1020;
+  background:var(--panel);color:var(--gold);border:1px solid var(--border-hi);
   padding:8px 22px;font-size:14px;font-weight:600;border-radius:4px;
   cursor:pointer;letter-spacing:1px
 }
@@ -117,7 +119,7 @@ td.highlight{color:var(--gold-light);font-weight:700}
 /* Agenda cards */
 .agenda-grid{display:flex;gap:18px;flex:1;align-items:center}
 .agenda-card{
-  flex:1;background:var(--panel);border:1px solid #5a1020;border-radius:8px;
+  flex:1;background:var(--panel);border:1px solid var(--border-hi);border-radius:8px;
   padding:22px;cursor:pointer;transition:border-color .12s
 }
 .agenda-card:hover{border-color:var(--gold)}
@@ -150,10 +152,10 @@ td.highlight{color:var(--gold-light);font-weight:700}
 .tone-table th{
   text-align:left;padding:9px 13px;color:var(--gold);
   font-size:11px;letter-spacing:1px;text-transform:uppercase;
-  border-bottom:1px solid #5a1020;font-weight:600;background:var(--panel)
+  border-bottom:1px solid var(--border-hi);font-weight:600;background:var(--panel)
 }
 .tone-table td{
-  padding:10px 13px;border-bottom:1px solid #3a0015;
+  padding:10px 13px;border-bottom:1px solid var(--border-lo);
   vertical-align:top;color:var(--text)
 }
 .tone-table td:first-child{
@@ -220,12 +222,13 @@ function goTo(n){
   slides[cur].classList.remove('active');
   cur=Math.max(0,Math.min(n,total-1));
   slides[cur].classList.add('active');
+  slides[cur].scrollTop=0;
   document.getElementById('counter').textContent=(cur+1)+' / '+total;
 }
 document.getElementById('btn-prev').onclick=function(){goTo(cur-1)};
 document.getElementById('btn-next').onclick=function(){goTo(cur+1)};
 document.addEventListener('keydown',function(e){
-  if(e.key==='ArrowRight'||e.key===' ')goTo(cur+1);
+  if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();goTo(cur+1);}
   if(e.key==='ArrowLeft')goTo(cur-1);
 });
 goTo(0);
